@@ -3,16 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Book Ducks</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>Bokdetaljer | Book Ducks</title>
+    <link rel="stylesheet" href="style.css?v=2" />
     <script src="https://cdn.jsdelivr.net/npm/axios@1.16.0/dist/axios.min.js"></script>
     <script src="index.js" defer></script>
   </head>
 
   <body>
-    <!-- =========================
-         NAVBAR / HEADER
-    ========================== -->
     <header class="navbar">
       <a href="index.html" class="logo">BOOK DUCKS</a>
 
@@ -31,24 +28,15 @@
 
       <button id="logoutBtn" class="logout-btn">Logga ut</button>
     </header>
-
     <!-- =========================
          MAIN CONTENT
     ========================== -->
     <main>
-      <!-- Search -->
-      <section class="search-section">
-        <input
-          type="text"
-          id="searchInput"
-          placeholder="Sök böcker eller författare..."
-        />
-      </section>
-
-      <!-- Books -->
-      <section class="books-section">
-        <h1>Alla böcker</h1>
-        <div id="booksContainer" class="books-grid"></div>
+      <section class="details-section">
+        <a href="index.html" class="back-link">← Tillbaka till alla böcker</a>
+        <div id="bookDetailsContainer" class="book-details-card">
+          <p>Laddar bok...</p>
+        </div>
       </section>
     </main>
   </body>

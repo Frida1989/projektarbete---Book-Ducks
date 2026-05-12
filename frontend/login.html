@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logga in</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.16.0/dist/axios.min.js"></script>
+    <script src="index.js" defer></script>
+  </head>
+
+  <body>
+    <main>
+      <section class="auth-section">
+        <form id="loginForm" class="auth-form">
+          <h1>Logga in</h1>
+
+          <label for="loginIdentifier">E-post</label>
+          <input
+            type="email"
+            id="loginIdentifier"
+            placeholder="E-post"
+            autocomplete="email"
+            required
+          />
+
+          <label for="loginPassword">Lösenord</label>
+          <input
+            type="password"
+            id="loginPassword"
+            placeholder="Lösenord"
+            autocomplete="current-password"
+            required
+          />
+
+          <!-- Login button -->
+          <button type="submit" id="loginBtn">Logga in</button>
+
+          <p class="auth-links">
+            Har du inget konto?
+            <a href="register.html">Registrera dig här</a>
+          </p>
+          <p>
+            <a href="index.html">Tillbaka till startsidan</a>
+          </p>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

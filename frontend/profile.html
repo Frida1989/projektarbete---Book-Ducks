@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Min profil | Book Ducks</title>
+
+    <link rel="stylesheet" href="style.css?v=4" />
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.16.0/dist/axios.min.js"></script>
+    <script src="index.js" defer></script>
+  </head>
+
+  <body>
+    <header class="navbar">
+      <a href="index.html" class="logo">BOOK DUCKS</a>
+
+      <div class="welcome-area">
+        <span id="welcomeText"></span>
+
+        <a href="profile.html" id="profileLink" class="profile-link">
+          Min profil ✨
+        </a>
+      </div>
+
+      <div class="auth-buttons">
+        <a href="login.html" class="btn">Logga in</a>
+        <a href="register.html" class="btn">Registrera dig</a>
+      </div>
+
+      <button id="logoutBtn" class="logout-btn">Logga ut</button>
+    </header>
+
+    <main>
+      <section class="profile-section">
+        <aside class="profile-sidebar">
+          <div class="profile-avatar">🦆</div>
+
+          <h2 id="profileUsername">Användare</h2>
+
+          <nav class="profile-menu">
+            <a href="#readingPanel">Att läsa</a>
+            <a href="#ratedPanel">Betygsatta böcker</a>
+          </nav>
+        </aside>
+
+        <section class="profile-content">
+          <div class="profile-header">
+            <div>
+              <h1>Min profil</h1>
+              <p>Här hittar du dina sparade och betygsatta böcker.</p>
+            </div>
+          </div>
+
+          <div class="profile-lists-grid">
+            <section class="profile-panel" id="readingPanel">
+              <div class="panel-header">
+                <h2>Att läsa</h2>
+
+                <label>
+                  Sortera:
+                  <select id="sortReadingList">
+                    <option value="title">Titel A-Ö</option>
+                    <option value="author">Författare A-Ö</option>
+                  </select>
+                </label>
+              </div>
+
+              <div id="readingListContainer" class="reading-list"></div>
+            </section>
+
+            <section class="profile-panel" id="ratedPanel">
+              <div class="panel-header">
+                <h2>Betygsatta böcker</h2>
+
+                <label>
+                  Sortera:
+                  <select id="sortRatedBooks">
+                    <option value="title">Titel A-Ö</option>
+                    <option value="author">Författare A-Ö</option>
+                    <option value="score">Betyg högst först</option>
+                  </select>
+                </label>
+              </div>
+
+              <div id="ratedBooksContainer" class="rated-books-list"></div>
+            </section>
+          </div>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrera konto</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.16.0/dist/axios.min.js"></script>
+    <script src="index.js" defer></script>
+  </head>
+
+  <body>
+    <main>
+      <section class="auth-section">
+        <form id="registerForm" class="auth-form">
+          <h1>Registrera konto</h1>
+
+          <label for="username"> Användarnamn </label>
+
+          <input
+            type="text"
+            id="username"
+            placeholder="Användarnamn"
+            autocomplete="username"
+            required
+          />
+
+          <label for="email"> E-post </label>
+
+          <input
+            type="email"
+            id="email"
+            placeholder="E-post"
+            autocomplete="email"
+            required
+          />
+
+          <label for="password"> Lösenord </label>
+
+          <input
+            type="password"
+            id="password"
+            placeholder="Lösenord"
+            autocomplete="new-password"
+            required
+          />
+
+          <!-- Register button -->
+          <button type="submit" id="registerBtn">Registrera</button>
+          <p class="auth-links">
+            Har du redan konto?
+            <a href="login.html">Logga in här</a>
+          </p>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
