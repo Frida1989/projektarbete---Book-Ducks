@@ -282,7 +282,31 @@ function logout() {
   localStorage.removeItem("username");
   window.location.href = "index.html";
 }
+// ===============================
+// THEMES
+// ===============================
 
+async function fetchTheme() {
+  try {
+    const response = await axios.get(`${API_URL}/themes`);
+
+    const themes = response.data.data;
+
+    if (!themes || themes.length === 0) return;
+
+    const activeTheme = themes[0].themeName;
+
+    document.body.classList.remove(
+      "theme-minimalist",
+      "theme-dark",
+      "theme-natural",
+    );
+
+    document.body.classList.add(`theme-${activeTheme}`);
+  } catch (error) {
+    console.error("Could not fetch theme:", error.response?.data || error);
+  }
+}
 function updateAuthUI() {
   const token = localStorage.getItem("token");
   const username = localStorage.getItem("username");
@@ -444,9 +468,16 @@ function removeFromReadingList(bookId) {
 // RATINGS
 
 async function fetchRatingsForBook(bookId) {
+  const token = localStorage.getItem("token");
+
   try {
     const response = await axios.get(
       `${API_URL}/ratings?filters[book][documentId][$eq]=${bookId}&populate[book][populate]=*`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
     );
 
     return response.data.data;
@@ -686,3 +717,4 @@ if (readingListContainer || ratedBooksContainer) {
 }
 
 updateAuthUI();
+fetchTheme();
