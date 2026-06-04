@@ -1,7 +1,3 @@
-// ===============================
-// GLOBALS / DOM
-// ===============================
-
 const API_URL = "http://localhost:1337/api";
 
 const booksList = document.getElementById("booksContainer");
@@ -19,24 +15,48 @@ const profileUsername = document.getElementById("profileUsername");
 const profileLink = document.getElementById("profileLink");
 const logoutBtn = document.getElementById("logoutBtn");
 const searchInput = document.getElementById("searchInput");
+const pageFilterInput = document.getElementById("pageFilterInput");
 const welcomeText = document.getElementById("welcomeText");
 const authButtons = document.querySelector(".auth-buttons");
 
 let books = [];
-
-// ===============================
-// BOOK LIST
-// ===============================
+let ratings = [];
 
 async function fetchBooks() {
   try {
-    const response = await axios.get(`${API_URL}/books?populate=*`);
-    books = response.data.data;
+    const booksResponse = await axios.get(`${API_URL}/books?populate=*`);
+
+    const ratingsResponse = await axios.get(
+      `${API_URL}/ratings?populate[book]=*`,
+    );
+
+    books = booksResponse.data.data;
+    ratings = ratingsResponse.data.data;
+
     renderBooks(books);
   } catch (error) {
     console.error("Could not fetch books:", error.response?.data || error);
     alert("Kunde inte hämta böcker.");
   }
+}
+function getAverageRatingForBook(book) {
+  const bookRatings = ratings.filter((rating) => {
+    return (
+      rating.book?.documentId === book.documentId ||
+      rating.book?.id === book.id ||
+      rating.book?.title === book.title
+    );
+  });
+
+  if (bookRatings.length === 0) {
+    return "-";
+  }
+
+  const total = bookRatings.reduce((sum, rating) => {
+    return sum + Number(rating.score);
+  }, 0);
+
+  return (total / bookRatings.length).toFixed(1);
 }
 
 function renderBooks(booksArray) {
@@ -58,6 +78,7 @@ function renderBooks(booksArray) {
     const imageUrl = book.coverImage?.url
       ? `http://localhost:1337${book.coverImage.url}`
       : "";
+    const averageRating = getAverageRatingForBook(book);
 
     const bookItem = document.createElement("div");
     bookItem.classList.add("book-card");
@@ -77,29 +98,32 @@ function renderBooks(booksArray) {
       <p><strong>Författare:</strong> ${book.author}</p>
       <p><strong>Antal sidor:</strong> ${book.pageCount}</p>
       <p><strong>Utgivningsdatum:</strong> ${book.publishedDate}</p>
+      <p><strong>Snittbetyg:</strong> ⭐ ${averageRating}/10</p>
     `;
 
     booksList.appendChild(bookItem);
   });
 }
 
-function searchBooks(event) {
-  const searchText = event.target.value.toLowerCase();
+function filterBooks() {
+  const searchText = searchInput?.value.toLowerCase() || "";
+  const maxPages = Number(pageFilterInput?.value) || null;
 
   const filteredBooks = books.filter((book) => {
     const title = book.title?.toLowerCase() || "";
     const author = book.author?.toLowerCase() || "";
 
-    return title.includes(searchText) || author.includes(searchText);
+    const matchesSearch =
+      title.includes(searchText) || author.includes(searchText);
+
+    const matchesPages = !maxPages || Number(book.pageCount) <= maxPages;
+
+    return matchesSearch && matchesPages;
   });
 
   renderBooks(filteredBooks);
 }
-
-// ===============================
 // BOOK DETAILS
-// ===============================
-
 async function fetchBookDetails() {
   if (!bookDetailsContainer) return;
 
@@ -226,11 +250,7 @@ function renderBookDetails(book) {
 
   updateAverageRating(book.documentId);
 }
-
-// ===============================
 // AUTH
-// ===============================
-
 async function register(event) {
   event.preventDefault();
 
@@ -282,10 +302,7 @@ function logout() {
   localStorage.removeItem("username");
   window.location.href = "index.html";
 }
-// ===============================
 // THEMES
-// ===============================
-
 async function fetchTheme() {
   try {
     const response = await axios.get(`${API_URL}/themes`);
@@ -357,17 +374,19 @@ async function getCurrentUser() {
 
   return response.data;
 }
-
-// ===============================
 // READING LIST
-// ===============================
+
+function getReadingListKey() {
+  const username = localStorage.getItem("username") || "guest";
+  return `readingList_${username}`;
+}
 
 function getReadingList() {
-  return JSON.parse(localStorage.getItem("readingList")) || [];
+  return JSON.parse(localStorage.getItem(getReadingListKey())) || [];
 }
 
 function saveReadingList(list) {
-  localStorage.setItem("readingList", JSON.stringify(list));
+  localStorage.setItem(getReadingListKey(), JSON.stringify(list));
 }
 
 function addToReadingList(book) {
@@ -463,24 +482,22 @@ function removeFromReadingList(bookId) {
   saveReadingList(updatedList);
   renderReadingList(sortReadingList?.value || "title");
 }
-
-// ===============================
 // RATINGS
 
 async function fetchRatingsForBook(bookId) {
-  const token = localStorage.getItem("token");
-
   try {
-    const response = await axios.get(
-      `${API_URL}/ratings?filters[book][documentId][$eq]=${bookId}&populate[book][populate]=*`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    );
+    const response = await axios.get(`${API_URL}/ratings?populate=*`);
 
-    return response.data.data;
+    const allRatings = response.data.data;
+
+    const bookRatings = allRatings.filter((rating) => {
+      return (
+        rating.book?.documentId === bookId ||
+        String(rating.book?.id) === String(bookId)
+      );
+    });
+
+    return bookRatings;
   } catch (error) {
     console.error("Could not fetch ratings:", error.response?.data || error);
     return [];
@@ -519,24 +536,12 @@ async function submitRating(book, score) {
   }
 
   try {
-    const user = await getCurrentUser();
-
-    console.log("BOOK:", book);
-    console.log("USER:", user);
-
     await axios.post(
       `${API_URL}/ratings`,
       {
         data: {
           score: Number(score),
-
-          book: {
-            connect: [book.documentId],
-          },
-
-          user: {
-            connect: [user.id],
-          },
+          book: book.id,
         },
       },
       {
@@ -547,6 +552,10 @@ async function submitRating(book, score) {
     );
 
     await updateAverageRating(book.documentId);
+
+    if (booksList) {
+      await fetchBooks();
+    }
 
     alert(`Du gav boken ${score}/10 ⭐`);
   } catch (error) {
@@ -569,16 +578,16 @@ async function renderUserRatedBooksOnProfile(sortBy = "title") {
   }
 
   try {
+    const user = await getCurrentUser();
+
     const response = await axios.get(`${API_URL}/ratings`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
-    console.log("MY RATINGS:", response.data.data);
-
     let ratings = response.data.data;
-    // SORTERING
+
     ratings.sort((a, b) => {
       const bookA = a.book;
       const bookB = b.book;
@@ -595,7 +604,6 @@ async function renderUserRatedBooksOnProfile(sortBy = "title") {
 
     ratedBooksContainer.innerHTML = "";
 
-    // TOM LISTA
     if (ratings.length === 0) {
       ratedBooksContainer.innerHTML = `
         <div class="empty-state">
@@ -606,7 +614,6 @@ async function renderUserRatedBooksOnProfile(sortBy = "title") {
       return;
     }
 
-    // LOOPA RATINGS
     ratings.forEach((rating) => {
       const book = rating.book;
 
@@ -617,7 +624,6 @@ async function renderUserRatedBooksOnProfile(sortBy = "title") {
         : "";
 
       const item = document.createElement("article");
-
       item.classList.add("rated-book-item");
 
       item.innerHTML = `
@@ -650,9 +656,7 @@ async function renderUserRatedBooksOnProfile(sortBy = "title") {
     `;
   }
 }
-// ===============================
 // INIT
-// ===============================
 
 if (registerForm) {
   registerForm.addEventListener("submit", register);
@@ -667,7 +671,11 @@ if (logoutBtn) {
 }
 
 if (searchInput) {
-  searchInput.addEventListener("input", searchBooks);
+  searchInput.addEventListener("input", filterBooks);
+}
+
+if (pageFilterInput) {
+  pageFilterInput.addEventListener("input", filterBooks);
 }
 
 if (booksList) {
