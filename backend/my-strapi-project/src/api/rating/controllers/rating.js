@@ -29,23 +29,12 @@ module.exports = createCoreController("api::rating.rating", ({ strapi }) => ({
     const user = ctx.state.user;
 
     if (!user) {
-      const ratings = await strapi.entityService.findMany(
-        "api::rating.rating",
-        {
-          populate: {
-            book: true,
-          },
-        },
-      );
-
-      return { data: ratings };
+      return ctx.unauthorized("You must be logged in");
     }
 
     const ratings = await strapi.entityService.findMany("api::rating.rating", {
       filters: {
-        user: {
-          id: user.id,
-        },
+        user: user.id,
       },
       populate: {
         book: {
