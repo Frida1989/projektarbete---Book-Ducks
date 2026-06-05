@@ -1,8 +1,3 @@
-/* =========================================================
-   BOOK DUCKS — GLOBAL DESIGN SYSTEM
-   Viktigt: färger, spacing, cards, shadows och gemensam känsla
-========================================================= */
-
 :root {
   --bg-main: #fbf7ef;
   --bg-card: #fffdf8;
@@ -67,6 +62,41 @@ a {
 main {
   width: min(var(--max-width), calc(100% - 32px));
   margin: 42px auto;
+}
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
 }
 
 /* =========================================================
@@ -366,16 +396,6 @@ button[type="submit"],
 
 .book-card p strong {
   color: var(--text-main);
-}
-
-.book-card::after {
-  content: "★ 8.4";
-
-  display: inline-block;
-  margin-top: 12px;
-
-  color: var(--primary);
-  font-weight: 900;
 }
 
 /* =========================================================
@@ -1142,61 +1162,32 @@ button[type="submit"],
     border-radius: 22px;
   }
 }
-/* ======================================
-   THEME VARIABLES
-====================================== */
 
-:root {
-  --bg: #f8f6ef;
-  --surface: #fffdf7;
-  --surface-2: #f5f1e6;
-
-  --text: #243018;
-  --text-soft: #6f7665;
-
-  --primary: #4f6b2b;
-  --primary-hover: #3f5622;
-
-  --border: #d8d2bd;
-
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-}
-
-/* ======================================
+/* =========================================================
    DARK THEME
-====================================== */
-/* ======================================
-   DARK THEME - BOOK DUCKS
-====================================== */
+   Controlled by Strapi: body gets class .theme-dark
+========================================================= */
 
 body.theme-dark {
-  --bg: #0b1020;
-  --surface: #111827;
-  --surface-2: #182235;
-
-  --text: #f8fafc;
-  --text-soft: #cbd5e1;
-  --text-muted: #94a3b8;
+  --bg-main: #0b1020;
+  --bg-card: #111827;
+  --bg-soft: #182235;
 
   --primary: #60a5fa;
-  --primary-hover: #3b82f6;
+  --primary-dark: #f8fafc;
+  --primary-light: #1e293b;
+
   --accent: #facc15;
+  --accent-soft: #334155;
+
+  --text-main: #f8fafc;
+  --text-muted: #cbd5e1;
 
   --border: #263348;
-  --shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
 
-  background: var(--bg);
-  color: var(--text);
-}
+  --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.45);
+  --shadow-card: 0 12px 30px rgba(0, 0, 0, 0.35);
 
-/* Main background */
-body.theme-dark,
-body.theme-dark main,
-body.theme-dark .profile-page,
-body.theme-dark .profile-main,
-body.theme-dark .profile-content,
-body.theme-dark .books-section,
-body.theme-dark .details-page {
   background:
     radial-gradient(
       circle at top left,
@@ -1204,77 +1195,42 @@ body.theme-dark .details-page {
       transparent 35%
     ),
     linear-gradient(135deg, #0b1020 0%, #111827 55%, #0f172a 100%);
-  color: var(--text);
+  color: var(--text-main);
 }
 
-/* Header */
-body.theme-dark header,
 body.theme-dark .navbar,
-body.theme-dark .site-header {
-  background: rgba(15, 23, 42, 0.96);
-  border-bottom: 1px solid var(--border);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
-}
-
-/* Cards and panels */
-body.theme-dark .book-card,
+body.theme-dark .books-section,
+body.theme-dark .book-details-card,
+body.theme-dark .profile-section,
+body.theme-dark .auth-form,
+body.theme-dark .profile-panel,
 body.theme-dark .action-panel,
+body.theme-dark .details-cover-wrap,
 body.theme-dark .reading-list-item,
 body.theme-dark .rated-book-item,
-body.theme-dark .profile-sidebar,
-body.theme-dark .profile-card,
-body.theme-dark .details-container,
-body.theme-dark .details-info,
-body.theme-dark .details-actions,
-body.theme-dark .reading-list-section,
-body.theme-dark .rated-books-section,
-body.theme-dark .profile-section,
 body.theme-dark .empty-state {
   background: linear-gradient(180deg, #141f33 0%, #101827 100%);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-  color: var(--text);
+  border-color: var(--border);
+  box-shadow: var(--shadow-soft);
 }
 
-/* Book card text */
-body.theme-dark .book-card h2,
-body.theme-dark .book-card h3,
-body.theme-dark .details-info h1,
-body.theme-dark .profile-main h1,
-body.theme-dark .profile-section h2,
-body.theme-dark .rated-book-info h3,
-body.theme-dark .reading-list-item h3 {
-  color: #f8fafc;
-}
-
-body.theme-dark .book-card p,
-body.theme-dark .book-card span,
-body.theme-dark .details-info p,
-body.theme-dark .reading-list-item p,
-body.theme-dark .rated-book-info p {
-  color: var(--text-soft);
+body.theme-dark .book-card {
+  background: linear-gradient(180deg, #141f33 0%, #101827 100%);
+  border-color: var(--border);
 }
 
 body.theme-dark .book-card strong,
-body.theme-dark .details-info strong {
+body.theme-dark .details-author strong {
   color: #bfdbfe;
 }
 
-/* Rating */
-body.theme-dark .rating-star,
-body.theme-dark .rated-score,
-body.theme-dark .rating-number {
-  color: #facc15;
-  font-weight: 800;
-}
-
-/* Inputs and selects */
 body.theme-dark input,
 body.theme-dark select,
-body.theme-dark textarea {
+body.theme-dark textarea,
+body.theme-dark .meta-pill {
   background: #0f172a;
-  color: var(--text);
-  border: 1px solid #334155;
+  color: var(--text-main);
+  border-color: #334155;
 }
 
 body.theme-dark input::placeholder {
@@ -1283,61 +1239,171 @@ body.theme-dark input::placeholder {
 
 body.theme-dark option {
   background: #0f172a;
-  color: var(--text);
+  color: var(--text-main);
 }
 
-/* Buttons */
-body.theme-dark button,
-body.theme-dark .btn,
-body.theme-dark .reading-list-btn,
-body.theme-dark .auth-btn {
-  background: var(--primary);
-  color: #06101f;
-  border: none;
-  font-weight: 700;
+body.theme-dark .rating-star,
+body.theme-dark .rating-number,
+body.theme-dark .rated-score {
+  color: var(--accent);
 }
 
-body.theme-dark button:hover,
-body.theme-dark .btn:hover,
-body.theme-dark .reading-list-btn:hover,
-body.theme-dark .auth-btn:hover {
-  background: var(--primary-hover);
-  color: #ffffff;
-}
-
-/* Links */
-body.theme-dark a {
-  color: #93c5fd;
-}
-
-/* Meta pills */
-body.theme-dark .meta-pill {
-  background: #0f172a;
-  border: 1px solid #334155;
-  color: var(--text-soft);
-}
-
-/* Sidebar */
-body.theme-dark .profile-sidebar a,
-body.theme-dark .profile-sidebar p,
-body.theme-dark .profile-sidebar span {
-  color: var(--text-soft);
-}
-
-body.theme-dark .profile-sidebar h2,
-body.theme-dark .profileUsername,
-body.theme-dark #profileUsername {
-  color: #f8fafc;
-}
-
-/* Delete/remove buttons */
 body.theme-dark .remove-reading-btn {
   background: transparent;
   color: #fca5a5;
-  border: 1px solid #7f1d1d;
+  border-color: #7f1d1d;
 }
 
 body.theme-dark .remove-reading-btn:hover {
   background: #7f1d1d;
   color: white;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer {
+  margin-top: clamp(4rem, 8vw, 6rem);
+  padding: 3rem 1.5rem 1.5rem;
+
+  background: var(--bg-soft);
+  border-top: 1px solid var(--border);
+}
+
+.footer-content {
+  max-width: var(--max-width);
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 1.4fr 0.7fr 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+
+.footer-brand h2,
+.footer-links h3,
+.footer-social h3 {
+  color: var(--primary-dark);
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.footer-brand h2 {
+  margin-bottom: 0.8rem;
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  letter-spacing: -0.8px;
+}
+
+.footer-brand p,
+.footer-bottom p {
+  color: var(--text-muted);
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.footer-brand p {
+  max-width: 340px;
+}
+
+.footer-links,
+.footer-social,
+.social-links {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-links,
+.footer-social {
+  gap: 0.75rem;
+}
+
+.social-links {
+  gap: 0.65rem;
+}
+
+.footer-links h3,
+.footer-social h3 {
+  margin-bottom: 0.25rem;
+  font-size: 1.05rem;
+}
+
+.footer-links a,
+.social-links a {
+  width: fit-content;
+  min-height: 40px;
+  padding: 0.35rem 0.7rem;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+
+  color: var(--text-main);
+  border-radius: 999px;
+
+  font-weight: 700;
+  text-decoration: none;
+
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.footer-links a:hover,
+.social-links a:hover {
+  color: var(--primary-dark);
+  background: var(--primary-light);
+  transform: translateX(4px);
+}
+
+.footer-bottom {
+  max-width: var(--max-width);
+  margin: 2.5rem auto 0;
+  padding-top: 1.2rem;
+
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+  border-top: 1px solid var(--border);
+}
+
+.footer-bottom p {
+  font-size: 0.95rem;
+}
+
+/* =========================================================
+   FOOTER RESPONSIVE
+========================================================= */
+
+@media (max-width: 850px) {
+  .footer-content {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .site-footer {
+    padding: 2.5rem 1rem 1.2rem;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+  }
+
+  .footer-links a,
+  .social-links a {
+    min-height: 44px;
+  }
 }
