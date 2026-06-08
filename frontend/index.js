@@ -2,7 +2,20 @@
 // GLOBALS / DOM
 // ===============================
 
-const API_URL = "http://localhost:1337/api";
+const STRAPI_URL = (
+  window.BOOK_DUCKS_CONFIG?.STRAPI_URL || "http://localhost:1337"
+).replace(/\/+$/, "");
+const API_URL = `${STRAPI_URL}/api`;
+
+function getMediaUrl(media) {
+  const url = media?.url;
+
+  if (!url) return "";
+
+  return url.startsWith("http://") || url.startsWith("https://")
+    ? url
+    : `${STRAPI_URL}${url}`;
+}
 
 const booksList = document.getElementById("booksContainer");
 const registerForm = document.querySelector("#registerForm");
@@ -55,9 +68,7 @@ function renderBooks(booksArray) {
   }
 
   booksArray.forEach((book) => {
-    const imageUrl = book.coverImage?.url
-      ? `http://localhost:1337${book.coverImage.url}`
-      : "";
+    const imageUrl = getMediaUrl(book.coverImage);
 
     const bookItem = document.createElement("div");
     bookItem.classList.add("book-card");
@@ -126,9 +137,7 @@ async function fetchBookDetails() {
 }
 
 function renderBookDetails(book) {
-  const imageUrl = book.coverImage?.url
-    ? `http://localhost:1337${book.coverImage.url}`
-    : "";
+  const imageUrl = getMediaUrl(book.coverImage);
 
   bookDetailsContainer.innerHTML = `
     <div class="details-cover-wrap">
@@ -427,9 +436,7 @@ function renderReadingList(sortBy = "title") {
   }
 
   readingList.forEach((book) => {
-    const imageUrl = book.coverImage?.url
-      ? `http://localhost:1337${book.coverImage.url}`
-      : "";
+    const imageUrl = getMediaUrl(book.coverImage);
 
     const item = document.createElement("article");
     item.classList.add("reading-list-item");
@@ -612,9 +619,7 @@ async function renderUserRatedBooksOnProfile(sortBy = "title") {
 
       if (!book) return;
 
-      const imageUrl = book.coverImage?.url
-        ? `http://localhost:1337${book.coverImage.url}`
-        : "";
+      const imageUrl = getMediaUrl(book.coverImage);
 
       const item = document.createElement("article");
 
