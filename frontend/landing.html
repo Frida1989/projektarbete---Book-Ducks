@@ -184,25 +184,72 @@
     </section>
 
     <!-- ══════════════════════════════════════
-         SCENE 5 — SKY / DREAMY
-         image: images/scene5.jpg
+         SCENE 5 — BOKHYLLA (CSS-baserad)
     ══════════════════════════════════════ -->
-    <section id="s5" class="scene" aria-label="Spara favoriter">
-      <div class="scene__bg" id="s5Bg"
-        style="background-image: url('images/scene5.jpg');">
-      </div>
-      <div class="scene__overlay scene__overlay--right"></div>
+    <section id="s5" class="scene scene--shelf" aria-label="Spara favoriter">
 
-      <div class="scene__body scene__body--right">
-        <span class="scene__chip scene__chip--warm sd-anim" data-anim="fade-right">IV / VII</span>
-        <h2 class="scene__title sd-anim" data-anim="fade-right" data-delay="80">
-          Bygg din egen<br />bokhylla
+      <!-- Decorative floating books (CSS-only) -->
+      <div class="shelf-deco" aria-hidden="true">
+        <div class="shelf-book shelf-book--1">
+          <div class="sb-cover">🐰</div>
+          <div class="sb-spine"></div>
+        </div>
+        <div class="shelf-book shelf-book--2">
+          <div class="sb-cover">🦁</div>
+          <div class="sb-spine"></div>
+        </div>
+        <div class="shelf-book shelf-book--3">
+          <div class="sb-cover">🌙</div>
+          <div class="sb-spine"></div>
+        </div>
+        <div class="shelf-book shelf-book--4">
+          <div class="sb-cover">🧙</div>
+          <div class="sb-spine"></div>
+        </div>
+        <div class="shelf-book shelf-book--5">
+          <div class="sb-cover">🐻</div>
+          <div class="sb-spine"></div>
+        </div>
+        <div class="shelf-star shelf-star--1">⭐</div>
+        <div class="shelf-star shelf-star--2">✨</div>
+        <div class="shelf-star shelf-star--3">🌟</div>
+        <div class="shelf-bookmark shelf-bookmark--1">🔖</div>
+        <div class="shelf-bookmark shelf-bookmark--2">🔖</div>
+        <div class="shelf-duck">🦆</div>
+      </div>
+
+      <div class="scene__body scene__body--left">
+        <span class="scene__chip scene__chip--warm sd-anim" data-anim="fade-left">IV / VII — Spara</span>
+        <h2 class="scene__title sd-anim" data-anim="fade-left" data-delay="80">
+          Bygg din<br />egen bokhylla
         </h2>
-        <p class="scene__desc sd-anim" data-anim="fade-right" data-delay="160">
+        <p class="scene__desc sd-anim" data-anim="fade-left" data-delay="160">
           Spara böcker du vill läsa senare och hitta alltid
           tillbaka till dina favoriter — på ett ställe.
         </p>
-        <div class="sd-anim" data-anim="fade-right" data-delay="240">
+
+        <!-- Reading list preview card -->
+        <div class="shelf-preview sd-anim" data-anim="fade-left" data-delay="260">
+          <div class="shelf-preview__header">
+            <span>🔖</span>
+            <strong>Min läslista</strong>
+            <span class="shelf-preview__count">3 böcker</span>
+          </div>
+          <div class="shelf-preview__item">
+            <div class="spi-cover" style="background:linear-gradient(135deg,#d4e6b5,#8fb96a)">🐰</div>
+            <div class="spi-info"><strong>Kaninen som inte ville sova</strong><span>Sparad ✓</span></div>
+          </div>
+          <div class="shelf-preview__item">
+            <div class="spi-cover" style="background:linear-gradient(135deg,#fde68a,#f59e0b)">🦁</div>
+            <div class="spi-info"><strong>Lejonhjärtat</strong><span>Sparad ✓</span></div>
+          </div>
+          <div class="shelf-preview__item">
+            <div class="spi-cover" style="background:linear-gradient(135deg,#c7d2fe,#818cf8)">🌙</div>
+            <div class="spi-info"><strong>Godnatt, Alfons Åberg</strong><span>Sparad ✓</span></div>
+          </div>
+        </div>
+
+        <div class="sd-anim" data-anim="fade-left" data-delay="340" style="margin-top:28px;">
           <a href="register.html" class="l-btn l-btn--primary">Skapa konto gratis</a>
         </div>
       </div>
