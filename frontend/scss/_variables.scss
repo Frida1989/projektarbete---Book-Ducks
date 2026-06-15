@@ -1,0 +1,53 @@
+// =========================================================
+// STORYDUCKS — Design tokens
+// =========================================================
+
+// CSS custom properties (also used as SCSS vars for calc/mix)
+:root {
+  --bg-main:       #fbf7ef;
+  --bg-card:       #fffdf8;
+  --bg-soft:       #f3ead8;
+
+  --primary:       #4f6f2f;
+  --primary-dark:  #2f451f;
+  --primary-light: #dbe8c7;
+
+  --accent:        #c89f5d;
+  --accent-soft:   #f1dfbd;
+
+  --text-main:     #26301f;
+  --text-muted:    #6f755f;
+
+  --border:        #dfd2b8;
+
+  --shadow-soft:   0 14px 35px rgba(66, 49, 20, 0.12);
+  --shadow-card:   0 8px 22px rgba(66, 49, 20, 0.1);
+
+  --radius-lg:     22px;
+  --radius-md:     14px;
+  --radius-sm:     8px;
+
+  --max-width:     1180px;
+}
+
+// SCSS mirror vars for use in functions/mixins
+$primary:       #4f6f2f;
+$primary-dark:  #2f451f;
+$primary-light: #dbe8c7;
+$accent:        #c89f5d;
+$accent-soft:   #f1dfbd;
+$text-main:     #26301f;
+$text-muted:    #6f755f;
+$bg-main:       #fbf7ef;
+$bg-card:       #fffdf8;
+$bg-soft:       #f3ead8;
+$border:        #dfd2b8;
+
+// Breakpoints
+$bp-xl:   1050px;
+$bp-lg:   820px;
+$bp-md:   760px;
+$bp-sm:   520px;
+$bp-xs:   480px;
+$bp-foot: 850px;
+$bp-foot-sm: 560px;

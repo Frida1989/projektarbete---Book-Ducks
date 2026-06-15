@@ -1,0 +1,20 @@
+// =========================================================
+// STORYDUCKS — Main SCSS entry point
+// Import order matters: vars → reset → components → pages
+// =========================================================
+
+@use 'variables';
+@use 'reset';
+@use 'buttons';
+@use 'navbar';
+@use 'books';
+@use 'auth';
+@use 'details';
+@use 'profile';
+@use 'footer';
+@use 'dark';
+
+// Landing page styles (only loaded on landing.html via separate compiled file)
+// Compile scss/landing.scss → landing.css separately if you prefer isolation.
+// For a single-bundle build, uncomment the line below:
+// @use 'landing';
