@@ -1,4 +1,5 @@
  Book Ducks
+ https://bookducks.netlify.app/index.html
 
 Book Ducks is a modern book web app built with HTML, CSS, JavaScript and Strapi CMS.
 
@@ -23,9 +24,4 @@ The project also includes:
 - CSS
 - JavaScript
 - Axios
-- Strapi CMS
-
-https://bookducks.netlify.app/index.html
-
-
-arideh Pakdaman
+- Strapi 
