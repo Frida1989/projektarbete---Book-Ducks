@@ -1,266 +1,229 @@
 // =========================================================
-// StoryDucks — Cinematic Landing Page
-// GSAP + ScrollTrigger animations
+// StoryDucks — Cinematic Landing Page JS
 // =========================================================
-
 (function () {
   "use strict";
 
-  // Respect reduced-motion preference
   const prefersReducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
   ).matches;
 
-  // ── Scroll progress bar ─────────────────────────────────
-  const progressBar = document.getElementById("scrollProgress");
-  if (progressBar) {
-    window.addEventListener("scroll", () => {
-      const scrolled =
-        window.scrollY /
-        (document.documentElement.scrollHeight - window.innerHeight);
-      progressBar.style.width = Math.min(scrolled * 100, 100) + "%";
-    });
-  }
-
-  // ── Sticky nav bg on scroll ────────────────────────────
-  const nav = document.getElementById("landingNav");
-  if (nav) {
-    const onScroll = () => {
-      nav.classList.toggle("scrolled", window.scrollY > 60);
+  // ── Scroll progress bar ──────────────────────────────
+  const bar = document.getElementById("scrollProgress");
+  if (bar) {
+    const updateBar = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + "%";
     };
+    window.addEventListener("scroll", updateBar, { passive: true });
+  }
+
+  // ── Nav background on scroll ─────────────────────────
+  const nav = document.getElementById("lNav");
+  if (nav) {
+    const onScroll = () => nav.classList.toggle("is-scrolled", window.scrollY > 50);
     window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
   }
 
-  // If user prefers reduced motion, just reveal everything immediately
-  if (prefersReducedMotion) {
-    document
-      .querySelectorAll(".gsap-fade, .gsap-fade-left, .gsap-fade-right, .gsap-scale")
-      .forEach((el) => {
-        el.style.opacity = "1";
-        el.style.transform = "none";
-      });
-    document.querySelectorAll(".floater").forEach((el) => {
-      el.style.opacity = "0.7";
+  // ── Mobile burger ────────────────────────────────────
+  const burger = document.getElementById("navBurger");
+  const drawer = document.getElementById("navDrawer");
+  if (burger && drawer) {
+    burger.addEventListener("click", () => {
+      const open = burger.classList.toggle("is-open");
+      drawer.classList.toggle("is-open", open);
+      burger.setAttribute("aria-expanded", open);
+      drawer.setAttribute("aria-hidden", !open);
+      document.body.style.overflow = open ? "hidden" : "";
     });
-    return; // skip all GSAP
+    // Close on link click
+    drawer.querySelectorAll("a").forEach((a) =>
+      a.addEventListener("click", () => {
+        burger.classList.remove("is-open");
+        drawer.classList.remove("is-open");
+        burger.setAttribute("aria-expanded", "false");
+        drawer.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      })
+    );
   }
 
-  // ── Wait for GSAP ──────────────────────────────────────
+  // ── Reduced motion — just reveal everything ───────────
+  if (prefersReducedMotion) {
+    document.querySelectorAll("[data-anim]").forEach((el) => {
+      el.style.opacity = "1";
+      el.style.transform = "none";
+    });
+    document.querySelectorAll(".deco-el").forEach((el) => {
+      el.style.opacity = "0.6";
+    });
+    return;
+  }
+
+  // ── GSAP guard ───────────────────────────────────────
   if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") {
-    console.warn("GSAP not loaded — skipping animations");
-    document
-      .querySelectorAll(".gsap-fade, .gsap-fade-left, .gsap-fade-right, .gsap-scale")
-      .forEach((el) => {
-        el.style.opacity = "1";
-        el.style.transform = "none";
-      });
+    document.querySelectorAll("[data-anim]").forEach((el) => {
+      el.style.opacity = "1";
+      el.style.transform = "none";
+    });
     return;
   }
 
   gsap.registerPlugin(ScrollTrigger);
 
-  // ── Hero — initial entrance ────────────────────────────
-  const heroTl = gsap.timeline({ defaults: { ease: "power3.out" } });
+  // ── Helper: get initial transform for each anim type ─
+  function getFrom(anim) {
+    switch (anim) {
+      case "fade-up":    return { opacity: 0, y: 40 };
+      case "fade-left":  return { opacity: 0, x: -48 };
+      case "fade-right": return { opacity: 0, x: 48 };
+      case "scale-up":   return { opacity: 0, scale: 0.88, y: 28 };
+      default:           return { opacity: 0, y: 30 };
+    }
+  }
 
-  heroTl
-    .to("#scene-hero .scene__title", {
-      opacity: 1,
-      y: 0,
-      duration: 1.2,
-      delay: 0.3,
-    })
-    .to(
-      "#scene-hero .scene__subtitle",
-      { opacity: 1, y: 0, duration: 0.9 },
-      "-=0.7"
-    )
-    .to(
-      "#scene-hero .scene__body",
-      { opacity: 1, y: 0, duration: 0.8 },
-      "-=0.6"
-    )
-    .to(
-      "#scene-hero .scene__cta",
-      { opacity: 1, y: 0, duration: 0.7 },
-      "-=0.5"
-    );
-
-  // Hero floaters entrance
-  gsap.to("#scene-hero .floater", {
-    opacity: 0.75,
-    duration: 1.4,
-    stagger: 0.2,
-    delay: 1.2,
-    ease: "power2.out",
+  // ── Scene 1 — hero entrance (no scroll trigger) ───────
+  const heroEls = document.querySelectorAll(
+    "#s1 [data-anim]"
+  );
+  heroEls.forEach((el) => {
+    const anim  = el.dataset.anim || "fade-up";
+    const delay = parseFloat(el.dataset.delay || 0) / 1000;
+    gsap.fromTo(el, getFrom(anim), {
+      opacity: 1, x: 0, y: 0, scale: 1,
+      duration: 1.1,
+      delay: 0.25 + delay,
+      ease: "power3.out",
+    });
   });
 
-  // ── Hero bg — slow parallax on scroll ─────────────────
-  gsap.to("#heroBg", {
-    yPercent: 25,
-    ease: "none",
-    scrollTrigger: {
-      trigger: "#scene-hero",
-      start: "top top",
-      end: "bottom top",
-      scrub: true,
-    },
-  });
-
-  // ── Hero bg — slow zoom in ────────────────────────────
-  gsap.to("#heroBg", {
-    scale: 1.0,
-    duration: 8,
-    ease: "power1.out",
-    delay: 0.2,
-  });
-
-  // ── Scroll nudge fade ──────────────────────────────────
-  const nudge = document.querySelector(".scroll-nudge");
-  if (nudge) {
-    gsap.to(nudge, {
-      opacity: 0,
+  // ── Scene 1 bg — slow ken burns ───────────────────────
+  const s1bg = document.getElementById("s1Bg");
+  if (s1bg) {
+    gsap.fromTo(s1bg, { scale: 1.08 }, {
+      scale: 1.02, duration: 10, ease: "power1.out",
+    });
+    // Parallax on scroll
+    gsap.to(s1bg, {
+      yPercent: 22,
+      ease: "none",
       scrollTrigger: {
-        trigger: "#scene-hero",
-        start: "20% top",
-        end: "40% top",
+        trigger: "#s1",
+        start: "top top",
+        end: "bottom top",
         scrub: true,
       },
     });
   }
 
-  // ── Helper: animate a scene on scroll ──────────────────
-  function animateScene(sceneId, options = {}) {
-    const scene = document.querySelector(sceneId);
-    if (!scene) return;
+  // ── Scenes 2–7 — scroll-triggered animations ─────────
+  const scenes = ["#s2","#s3","#s4","#s5","#s6","#s7"];
 
-    const {
-      bgParallax = true,
-      textClass = ".gsap-fade",
-      textFrom = { opacity: 0, y: 40 },
-      stagger = 0.12,
-    } = options;
+  scenes.forEach((id) => {
+    const section = document.querySelector(id);
+    if (!section) return;
 
-    // Parallax bg
-    if (bgParallax) {
-      const bg = scene.querySelector(".scene__bg");
-      if (bg) {
-        gsap.fromTo(
-          bg,
-          { yPercent: -10 },
-          {
-            yPercent: 10,
-            ease: "none",
-            scrollTrigger: {
-              trigger: scene,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: true,
-            },
-          }
-        );
-      }
+    // Parallax on bg
+    const bg = section.querySelector(".scene__bg");
+    if (bg) {
+      gsap.fromTo(bg,
+        { yPercent: -8 },
+        {
+          yPercent: 8,
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+          },
+        }
+      );
     }
 
-    // Text elements
-    const els = scene.querySelectorAll(
-      ".gsap-fade, .gsap-fade-left, .gsap-fade-right, .gsap-scale"
-    );
-
-    els.forEach((el) => {
-      let from = { opacity: 0 };
-      if (el.classList.contains("gsap-fade"))       from = { opacity: 0, y: 40 };
-      if (el.classList.contains("gsap-fade-left"))  from = { opacity: 0, x: -50 };
-      if (el.classList.contains("gsap-fade-right")) from = { opacity: 0, x: 50 };
-      if (el.classList.contains("gsap-scale"))      from = { opacity: 0, scale: 0.88 };
-
-      gsap.fromTo(el, from, {
-        opacity: 1,
-        y: 0,
-        x: 0,
-        scale: 1,
-        duration: 0.9,
+    // Animate each [data-anim] element
+    section.querySelectorAll("[data-anim]").forEach((el) => {
+      const anim  = el.dataset.anim || "fade-up";
+      const delay = parseFloat(el.dataset.delay || 0) / 1000;
+      gsap.fromTo(el, getFrom(anim), {
+        opacity: 1, x: 0, y: 0, scale: 1,
+        duration: 0.85,
+        delay,
         ease: "power3.out",
         scrollTrigger: {
           trigger: el,
-          start: "top 85%",
+          start: "top 88%",
           toggleActions: "play none none none",
         },
       });
     });
+  });
 
-    // Floaters
-    const floaters = scene.querySelectorAll(".floater");
-    floaters.forEach((f, i) => {
-      gsap.to(f, {
-        opacity: 0.72,
-        duration: 1,
-        delay: i * 0.15,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: scene,
-          start: "top 80%",
-          toggleActions: "play none none none",
-        },
-      });
+  // ── CTA deco floaters — reveal on scene enter ─────────
+  const decoEls = document.querySelectorAll(".deco-el");
+  if (decoEls.length) {
+    gsap.to(decoEls, {
+      opacity: 0.55,
+      duration: 1.2,
+      stagger: 0.18,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: "#s7",
+        start: "top 80%",
+        toggleActions: "play none none none",
+      },
     });
   }
 
-  // ── Animate all scenes ─────────────────────────────────
-  animateScene("#scene-discover");
-  animateScene("#scene-adventure");
-  animateScene("#scene-brand");
-  animateScene("#scene-bookshelf");
-  animateScene("#scene-cta");
-
-  // Scene 6 (app) — no bg image parallax, just content
-  animateScene("#scene-app", { bgParallax: false });
-
-  // ── Brand scene — pulsing light glow ──────────────────
-  const brandBg = document.querySelector("#scene-brand .scene__bg");
-  if (brandBg) {
-    gsap.to(brandBg, {
-      filter: "brightness(1.08)",
-      duration: 3,
+  // ── Scene 3 — extra: slow rotate on bg ───────────────
+  const s3bg = document.getElementById("s3Bg");
+  if (s3bg) {
+    gsap.to(s3bg, {
+      rotation: 2,
+      duration: 14,
       yoyo: true,
       repeat: -1,
       ease: "sine.inOut",
     });
   }
 
-  // ── App preview — sequential card reveal ───────────────
-  const miniBooks = document.querySelectorAll(".mini-book");
-  if (miniBooks.length) {
-    gsap.fromTo(
-      miniBooks,
-      { opacity: 0, y: 24 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.55,
-        stagger: 0.08,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: ".app-preview__grid",
-          start: "top 85%",
-          toggleActions: "play none none none",
-        },
-      }
-    );
+  // ── Scroll cue — fade out when user scrolls ───────────
+  const cue = document.querySelector(".scene__scroll-cue");
+  if (cue) {
+    gsap.to(cue, {
+      opacity: 0,
+      scrollTrigger: {
+        trigger: "#s1",
+        start: "15% top",
+        end: "35% top",
+        scrub: true,
+      },
+    });
   }
 
-  // ── Brand sign-off reveal ──────────────────────────────
-  const signoff = document.querySelector(".brand-signoff");
-  if (signoff) {
-    gsap.fromTo(
-      signoff,
-      { opacity: 0, scale: 0.85 },
+  // ── Buttons — spring hover via GSAP ──────────────────
+  document.querySelectorAll(".l-btn--primary, .l-btn--gold").forEach((btn) => {
+    btn.addEventListener("mouseenter", () =>
+      gsap.to(btn, { scale: 1.045, duration: 0.18, ease: "back.out(3)" })
+    );
+    btn.addEventListener("mouseleave", () =>
+      gsap.to(btn, { scale: 1, duration: 0.22, ease: "power2.out" })
+    );
+  });
+
+  // ── Mock cards — stagger reveal ───────────────────────
+  const mockCards = document.querySelectorAll(".mock-card");
+  if (mockCards.length) {
+    gsap.fromTo(mockCards,
+      { opacity: 0, y: 20 },
       {
-        opacity: 1,
-        scale: 1,
-        duration: 1.1,
-        ease: "back.out(1.4)",
+        opacity: 1, y: 0,
+        duration: 0.5,
+        stagger: 0.06,
+        ease: "power2.out",
         scrollTrigger: {
-          trigger: signoff,
+          trigger: ".mock-grid",
           start: "top 88%",
           toggleActions: "play none none none",
         },
@@ -268,20 +231,29 @@
     );
   }
 
-  // ── CTA buttons — hover glow pulse ────────────────────
-  document.querySelectorAll(".cta-btn--primary, .cta-btn--accent").forEach((btn) => {
-    btn.addEventListener("mouseenter", () => {
-      gsap.to(btn, { scale: 1.04, duration: 0.2, ease: "power1.out" });
-    });
-    btn.addEventListener("mouseleave", () => {
-      gsap.to(btn, { scale: 1, duration: 0.25, ease: "power1.out" });
-    });
-  });
+  // ── Feature pills — stagger reveal ───────────────────
+  const pills = document.querySelectorAll(".feat-pill");
+  if (pills.length) {
+    gsap.fromTo(pills,
+      { opacity: 0, scale: 0.85 },
+      {
+        opacity: 1, scale: 1,
+        duration: 0.45,
+        stagger: 0.07,
+        ease: "back.out(1.8)",
+        scrollTrigger: {
+          trigger: ".cta-features",
+          start: "top 88%",
+          toggleActions: "play none none none",
+        },
+      }
+    );
+  }
 
-  // ── Refresh ScrollTrigger on resize ───────────────────
+  // ── Refresh on resize ─────────────────────────────────
   let resizeTimer;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => ScrollTrigger.refresh(), 250);
+    resizeTimer = setTimeout(() => ScrollTrigger.refresh(), 200);
   });
 })();
