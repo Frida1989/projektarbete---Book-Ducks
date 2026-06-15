@@ -1,0 +1,90 @@
+// =========================================================
+// DARK THEME — body.theme-dark (controlled via Strapi)
+// =========================================================
+
+body.theme-dark {
+  --bg-main:       #0b1020;
+  --bg-card:       #111827;
+  --bg-soft:       #182235;
+
+  --primary:       #60a5fa;
+  --primary-dark:  #f8fafc;
+  --primary-light: #1e293b;
+
+  --accent:        #facc15;
+  --accent-soft:   #334155;
+
+  --text-main:     #f8fafc;
+  --text-muted:    #cbd5e1;
+
+  --border:        #263348;
+
+  --shadow-soft:   0 18px 40px rgba(0, 0, 0, 0.45);
+  --shadow-card:   0 12px 30px rgba(0, 0, 0, 0.35);
+
+  background:
+    radial-gradient(circle at top left, rgba(96, 165, 250, 0.12), transparent 35%),
+    linear-gradient(135deg, #0b1020 0%, #111827 55%, #0f172a 100%);
+  color: var(--text-main);
+
+  .navbar,
+  .books-section,
+  .book-details-card,
+  .profile-section,
+  .auth-form,
+  .profile-panel,
+  .action-panel,
+  .details-cover-wrap,
+  .reading-list-item,
+  .rated-book-item,
+  .empty-state {
+    background: linear-gradient(180deg, #141f33 0%, #101827 100%);
+    border-color: var(--border);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .book-card {
+    background: linear-gradient(180deg, #141f33 0%, #101827 100%);
+    border-color: var(--border);
+
+    strong,
+    .details-author strong {
+      color: #bfdbfe;
+    }
+  }
+
+  input,
+  select,
+  textarea,
+  .meta-pill {
+    background: #0f172a;
+    color: var(--text-main);
+    border-color: #334155;
+
+    &::placeholder {
+      color: #94a3b8;
+    }
+  }
+
+  option {
+    background: #0f172a;
+    color: var(--text-main);
+  }
+
+  .rating-star,
+  .rating-number,
+  .rated-score {
+    color: var(--accent);
+  }
+
+  .remove-reading-btn {
+    background: transparent;
+    color: #fca5a5;
+    border-color: #7f1d1d;
+
+    &:hover {
+      background: #7f1d1d;
+      color: white;
+    }
+  }
+}

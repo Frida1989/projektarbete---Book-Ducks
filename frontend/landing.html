@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StoryDucks – Upptäck magiska böcker för små läsare</title>
+    <meta name="description" content="StoryDucks är en varm och lekfull digital läsvärld där du hittar, sparar och betygsätter barnböcker." />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="landing.css" />
+
+    <!-- GSAP (loaded async, before closing body) -->
+  </head>
+
+  <body class="landing-body">
+
+    <!-- Scroll progress bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- ══════════════════════════════════════════════════
+         FIXED NAV
+    ══════════════════════════════════════════════════ -->
+    <nav class="landing-nav" id="landingNav" aria-label="Huvudnavigation">
+      <a href="landing.html" class="landing-nav__logo">
+        <!-- Swap src to your real logo file: images/logo.svg -->
+        <span>🦆</span>
+        <span>Story<span class="gold">Ducks</span></span>
+      </a>
+
+      <div class="landing-nav__links">
+        <a href="index.html">Böcker</a>
+        <a href="login.html" class="cta-btn cta-btn--ghost" style="padding:9px 18px;">Logga in</a>
+        <a href="register.html" class="cta-btn cta-btn--primary" style="padding:9px 18px;">Registrera</a>
+      </div>
+    </nav>
+
+    <!-- ══════════════════════════════════════════════════
+         SCENE 1 — HERO / MAGISK INTRO
+    ══════════════════════════════════════════════════ -->
+    <section id="scene-hero" class="scene scene--hero" aria-label="Välkommen till StoryDucks">
+
+      <!-- Background image — replace URL with: images/scene1.jpg -->
+      <div class="scene__bg" id="heroBg"
+        style="background-image:
+          url('images/scene1.jpg'),
+          radial-gradient(ellipse at 20% 50%, rgba(200,159,93,0.18) 0%, transparent 55%),
+          linear-gradient(160deg, #fbf7ef 0%, #f3ead8 100%);">
+      </div>
+
+      <div class="scene__scrim"></div>
+
+      <!-- Floating decorative elements -->
+      <div class="floaters" aria-hidden="true">
+        <span class="floater" style="top:15%;left:72%;animation-delay:0s;">📖</span>
+        <span class="floater" style="top:65%;left:80%;animation-delay:1.2s;">⭐</span>
+        <span class="floater" style="top:28%;left:85%;animation-delay:2.4s;">🦆</span>
+        <span class="floater" style="top:70%;left:12%;animation-delay:0.8s;">🌿</span>
+        <span class="floater" style="top:40%;left:88%;animation-delay:3s;">✨</span>
+      </div>
+
+      <div class="scene__content">
+        <h1 class="scene__title gsap-fade">
+          <span class="story">Story</span><span class="ducks">Ducks</span>
+        </h1>
+
+        <p class="scene__subtitle gsap-fade">
+          Upptäck magiska böcker<br />för små läsare.
+        </p>
+
+        <p class="scene__body gsap-fade">
+          Sök, spara och betygsätt barnböcker i en varm och lekfull läsvärld
+          skapad med kärlek för nyfikna små läsare.
+        </p>
+
+        <div class="scene__cta gsap-fade">
+          <a href="index.html" class="cta-btn cta-btn--primary">
+            Utforska böcker
+          </a>
+          <a href="register.html" class="cta-btn cta-btn--ghost">
+            Skapa konto
+          </a>
+        </div>
+      </div>
+
+      <!-- Scroll nudge -->
+      <div class="scroll-nudge" aria-hidden="true">
+        <span>Scrolla för att upptäcka</span>
+        <div class="scroll-nudge__arrow"></div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════
+         SCENE 2 — VÄRLDEN VAKNAR / DISCOVER
+    ══════════════════════════════════════════════════ -->
+    <section id="scene-discover" class="scene scene--light" aria-label="Upptäck böcker">
+      <div class="scene__bg"
+        style="background-image:
+          url('images/scene2.jpg'),
+          radial-gradient(ellipse at 60% 40%, rgba(219,232,199,0.6) 0%, transparent 60%),
+          linear-gradient(135deg, #fbf7ef 0%, #eef5df 100%);">
+      </div>
+      <div class="scene__scrim"></div>
+
+      <div class="floaters" aria-hidden="true">
+        <span class="floater" style="top:20%;left:75%;animation-delay:0.5s;">🌟</span>
+        <span class="floater" style="top:75%;left:70%;animation-delay:2s;">📚</span>
+        <span class="floater" style="top:50%;left:82%;animation-delay:1s;">🔖</span>
+      </div>
+
+      <div class="scene__content">
+        <span class="scene__label gsap-fade-left">I / VII — Upptäck</span>
+        <h2 class="scene__title gsap-fade-left">
+          Hitta nästa<br />magiska bok
+        </h2>
+        <p class="scene__body gsap-fade-left">
+          Bläddra bland barnböcker, sagor och klassiker i en lugn och lekfull
+          miljö där varje bok väntar på att bli läst.
+        </p>
+        <div class="scene__cta gsap-fade-left">
+          <a href="index.html" class="cta-btn cta-btn--primary">Se alla böcker</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════
+         SCENE 3 — MAGISK BOKVIRVEL / ADVENTURE
+    ══════════════════════════════════════════════════ -->
+    <section id="scene-adventure" class="scene scene--light" aria-label="Läsäventyr">
+      <div class="scene__bg"
+        style="background-image:
+          url('images/scene3.jpg'),
+          radial-gradient(ellipse at 50% 60%, rgba(47,69,31,0.08) 0%, transparent 70%),
+          linear-gradient(160deg, #f3ead8 0%, #fbf7ef 100%);">
+      </div>
+      <div class="scene__scrim"></div>
+
+      <div class="floaters" aria-hidden="true">
+        <span class="floater" style="top:12%;left:65%;animation-delay:0.3s;font-size:2.4rem;">📖</span>
+        <span class="floater" style="top:60%;left:75%;animation-delay:1.8s;">⭐</span>
+        <span class="floater" style="top:80%;left:60%;animation-delay:0.9s;">🦆</span>
+        <span class="floater" style="top:35%;left:82%;animation-delay:2.2s;">✨</span>
+      </div>
+
+      <div class="scene__content">
+        <span class="scene__label gsap-fade-left">II / VII — Läsäventyr</span>
+        <h2 class="scene__title gsap-fade-left">
+          Varje bok öppnar<br />en ny värld
+        </h2>
+        <p class="scene__body gsap-fade-left">
+          Följ berättelser, upptäck karaktärer och låt barnets fantasi växa
+          med varje sida som vänds.
+        </p>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════
+         SCENE 4 — BRAND ENERGY / MAGI
+    ══════════════════════════════════════════════════ -->
+    <section id="scene-brand" class="scene scene--dark scene--center" aria-label="StoryDucks magi">
+      <div class="scene__bg"
+        style="background-image:
+          url('images/scene4.jpg'),
+          radial-gradient(ellipse at 50% 50%, rgba(200,159,93,0.22) 0%, transparent 65%),
+          linear-gradient(135deg, #2f451f 0%, #4f6f2f 100%);">
+      </div>
+      <div class="scene__scrim"></div>
+
+      <div class="floaters" aria-hidden="true">
+        <span class="floater" style="top:10%;left:15%;animation-delay:0s;">✨</span>
+        <span class="floater" style="top:20%;left:82%;animation-delay:1.5s;">⭐</span>
+        <span class="floater" style="top:72%;left:20%;animation-delay:0.7s;">🌿</span>
+        <span class="floater" style="top:80%;left:78%;animation-delay:2.3s;">📖</span>
+      </div>
+
+      <div class="scene__content">
+        <span class="scene__label gsap-fade">III / VII — Magi</span>
+        <h2 class="scene__title gsap-fade">
+          En trygg plats<br />för små läsare
+        </h2>
+        <p class="scene__body gsap-fade">
+          En varm digital läsmiljö där böcker känns roliga, enkla och
+          inspirerande — en plats att växa i.
+        </p>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════
+         SCENE 5 — STORIES COME TO LIFE / BOKHYLLA
+    ══════════════════════════════════════════════════ -->
+    <section id="scene-bookshelf" class="scene scene--light" aria-label="Din bokhylla">
+      <div class="scene__bg"
+        style="background-image:
+          url('images/scene5.jpg'),
+          radial-gradient(ellipse at 70% 50%, rgba(241,223,189,0.7) 0%, transparent 60%),
+          linear-gradient(135deg, #fbf7ef 0%, #f3ead8 100%);">
+      </div>
+      <div class="scene__scrim"></div>
+
+      <div class="floaters" aria-hidden="true">
+        <span class="floater" style="top:18%;left:68%;animation-delay:0.4s;">🔖</span>
+        <span class="floater" style="top:55%;left:76%;animation-delay:1.6s;">❤️</span>
+        <span class="floater" style="top:78%;left:65%;animation-delay:2.8s;">📚</span>
+      </div>
+
+      <div class="scene__content">
+        <span class="scene__label gsap-fade-left">IV / VII — Spara</span>
+        <h2 class="scene__title gsap-fade-left">
+          Bygg din egen<br />bokhylla
+        </h2>
+        <p class="scene__body gsap-fade-left">
+          Spara böcker du vill läsa senare och hitta alltid tillbaka till
+          dina favoriter — på ett ställe.
+        </p>
+        <div class="scene__cta gsap-fade-left">
+          <a href="register.html" class="cta-btn cta-btn--primary">Skapa konto gratis</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════
+         SCENE 6 — APP PREVIEW
+    ══════════════════════════════════════════════════ -->
+    <section id="scene-app" class="scene" aria-label="Appen i detalj">
+      <div class="scene__bg"></div>
+
+      <div class="scene__content">
+        <span class="scene__label gsap-fade" style="background:rgba(79,111,47,0.1);border-color:rgba(79,111,47,0.25);color:var(--primary);">
+          V / VII — Utforska
+        </span>
+        <h2 class="scene__title gsap-fade" style="color:var(--primary-dark);">
+          Alla böcker på<br />ett ställe
+        </h2>
+        <p class="scene__body gsap-fade">
+          Sök efter böcker eller författare och hitta nästa läsäventyr direkt —
+          enkelt, snabbt och roligt.
+        </p>
+
+        <!-- App mockup -->
+        <div class="app-preview gsap-scale">
+          <div class="app-preview__bar">
+            <span></span><span></span><span></span>
+            <div class="url-bar">storyducks.netlify.app</div>
+          </div>
+          <div class="app-preview__screen">
+            <div class="app-preview__search">
+              🔍 &nbsp;Sök böcker eller författare...
+            </div>
+            <div class="app-preview__heading">Alla böcker</div>
+            <div class="app-preview__grid">
+              <div class="mini-book">
+                <div class="mini-book__cover">🐰</div>
+                <div class="mini-book__info">
+                  <h4>Kaninen som inte ville sova</h4>
+                  <p>Carl-Johan Forssén Ehrlin</p>
+                </div>
+              </div>
+              <div class="mini-book">
+                <div class="mini-book__cover">🦁</div>
+                <div class="mini-book__info">
+                  <h4>Lejonhjärtat</h4>
+                  <p>Astrid Lindgren</p>
+                </div>
+              </div>
+              <div class="mini-book">
+                <div class="mini-book__cover">🌙</div>
+                <div class="mini-book__info">
+                  <h4>Godnatt, Alfons Åberg</h4>
+                  <p>Gunilla Bergström</p>
+                </div>
+              </div>
+              <div class="mini-book">
+                <div class="mini-book__cover">🐻</div>
+                <div class="mini-book__info">
+                  <h4>Nalle Puh</h4>
+                  <p>A. A. Milne</p>
+                </div>
+              </div>
+              <div class="mini-book">
+                <div class="mini-book__cover">🧙</div>
+                <div class="mini-book__info">
+                  <h4>Mio, min Mio</h4>
+                  <p>Astrid Lindgren</p>
+                </div>
+              </div>
+              <div class="mini-book">
+                <div class="mini-book__cover">🦊</div>
+                <div class="mini-book__info">
+                  <h4>Emil i Lönneberga</h4>
+                  <p>Astrid Lindgren</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="scene__cta gsap-fade" style="justify-content:center;margin-top:32px;">
+          <a href="index.html" class="cta-btn cta-btn--primary">Gå till böckerna</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════
+         SCENE 7 — FINAL CTA / BÖRJA LÄSA
+    ══════════════════════════════════════════════════ -->
+    <section id="scene-cta" class="scene scene--center" aria-label="Kom igång">
+      <div class="scene__bg"
+        style="background-image:
+          url('images/scene7.jpg'),
+          linear-gradient(160deg, #2f451f 0%, #1a2d10 100%);">
+      </div>
+      <div class="scene__scrim"></div>
+
+      <div class="floaters" aria-hidden="true">
+        <span class="floater" style="top:15%;left:20%;animation-delay:0s;">✨</span>
+        <span class="floater" style="top:25%;left:78%;animation-delay:1.2s;">⭐</span>
+        <span class="floater" style="top:70%;left:15%;animation-delay:0.6s;">📖</span>
+        <span class="floater" style="top:75%;left:80%;animation-delay:2s;">🦆</span>
+        <span class="floater" style="top:45%;left:10%;animation-delay:1.8s;">🌿</span>
+        <span class="floater" style="top:50%;left:88%;animation-delay:0.3s;">🔖</span>
+      </div>
+
+      <div class="scene__content">
+        <span class="scene__label gsap-fade">VI / VII — Börja läsa</span>
+        <h2 class="scene__title gsap-fade">
+          Redo för nästa<br />bokäventyr?
+        </h2>
+        <p class="scene__body gsap-fade">
+          Skapa ett konto, spara favoriter och låt läsningen börja.
+          Gratis och enkelt för hela familjen.
+        </p>
+
+        <div class="scene__cta gsap-fade">
+          <a href="register.html" class="cta-btn cta-btn--accent">
+            Registrera dig
+          </a>
+          <a href="index.html" class="cta-btn cta-btn--ghost">
+            Utforska böcker
+          </a>
+        </div>
+
+        <!-- Brand sign-off -->
+        <div class="brand-signoff gsap-fade" aria-hidden="true">
+          <span>🦆</span>
+          <p>Story<strong>Ducks</strong></p>
+          <small>Upptäck magiska böcker för små läsare</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════
+         FOOTER
+    ══════════════════════════════════════════════════ -->
+    <footer class="landing-footer" role="contentinfo">
+      <div class="landing-footer__logo">Story<span>Ducks</span> 🦆</div>
+      <p class="landing-footer__tagline">Upptäck magiska böcker för små läsare</p>
+
+      <nav class="landing-footer__links" aria-label="Sidfotslänkar">
+        <a href="landing.html">Hem</a>
+        <a href="index.html">Böcker</a>
+        <a href="login.html">Logga in</a>
+        <a href="register.html">Registrera dig</a>
+        <a href="profile.html">Min profil</a>
+      </nav>
+
+      <p class="landing-footer__copy">
+        © 2025 StoryDucks — Designed &amp; developed by Frida ✨
+      </p>
+    </footer>
+
+    <!-- ══════════════════════════════════════════════════
+         GSAP
+    ══════════════════════════════════════════════════ -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="landing.js"></script>
+  </body>
+</html>
