@@ -1,0 +1,15 @@
+[build]
+  publish = "frontend"
+
+# Serve landing.html at the root URL (/)
+# Status 200 = internal rewrite, URL stays clean
+[[redirects]]
+  from = "/"
+  to   = "/landing.html"
+  status = 200
+
+# Keep all other routes working as-is
+[[redirects]]
+  from = "/*"
+  to   = "/:splat"
+  status = 200
