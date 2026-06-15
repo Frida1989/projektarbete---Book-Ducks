@@ -4,464 +4,339 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>StoryDucks – Upptäck magiska böcker för små läsare</title>
-    <meta name="description" content="StoryDucks – en varm och lekfull digital läsvärld där du hittar, sparar och betygsätter barnböcker." />
-
+    <meta name="description" content="StoryDucks – en varm och lekfull digital läsvärld för barnböcker." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="landing.css" />
   </head>
-
   <body class="landing-body">
 
-    <!-- Scroll progress -->
-    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+    <div class="scroll-progress" id="scrollProgress"></div>
 
-    <!-- ══════════════════════════════════════
-         NAV
-    ══════════════════════════════════════ -->
-    <nav class="l-nav" id="lNav" aria-label="Huvudnavigation">
-      <a href="landing.html" class="l-nav__logo" aria-label="StoryDucks hem">
-        <!-- Inline SVG logo — duck reading a book -->
-        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <ellipse cx="18" cy="22" rx="13" ry="10" fill="#c89f5d"/>
-          <ellipse cx="18" cy="21" rx="10" ry="8" fill="#2f451f"/>
-          <circle cx="18" cy="13" r="7" fill="#2f451f"/>
-          <circle cx="15.5" cy="11.5" r="1.5" fill="white"/>
-          <ellipse cx="21" cy="14" rx="3" ry="1.5" fill="#c89f5d" transform="rotate(15 21 14)"/>
-          <rect x="13" y="20" width="10" height="7" rx="1" fill="#fffdf8"/>
-          <rect x="13" y="20" width="5" height="7" rx="1" fill="#f3ead8"/>
-          <line x1="18" y1="20" x2="18" y2="27" stroke="#dfd2b8" stroke-width="0.8"/>
-          <ellipse cx="8" cy="24" rx="4" ry="5" fill="#c89f5d" transform="rotate(-20 8 24)"/>
+    <!-- NAV -->
+    <nav class="l-nav" id="lNav">
+      <a href="landing.html" class="l-nav__logo">
+        <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="20" cy="26" rx="14" ry="11" fill="#c89f5d"/>
+          <ellipse cx="20" cy="24" rx="11" ry="9" fill="#2f451f"/>
+          <circle cx="20" cy="15" r="8" fill="#2f451f"/>
+          <circle cx="17" cy="13" r="1.8" fill="white"/>
+          <ellipse cx="24" cy="16" rx="3.5" ry="1.8" fill="#c89f5d" transform="rotate(15 24 16)"/>
+          <rect x="14" y="23" width="12" height="8" rx="1.5" fill="#fffdf8"/>
+          <rect x="14" y="23" width="6" height="8" rx="1.5" fill="#f3ead8"/>
+          <line x1="20" y1="23" x2="20" y2="31" stroke="#dfd2b8" stroke-width="1"/>
+          <ellipse cx="8" cy="27" rx="5" ry="6" fill="#c89f5d" transform="rotate(-20 8 27)"/>
         </svg>
-        <span class="l-nav__logo-text">Story<em>Ducks</em></span>
+        <span>Story<em>Ducks</em></span>
       </a>
-
       <div class="l-nav__links">
         <a href="index.html">Böcker</a>
         <a href="login.html" class="l-btn l-btn--ghost">Logga in</a>
         <a href="register.html" class="l-btn l-btn--primary">Kom igång</a>
       </div>
-
-      <!-- Mobile menu toggle -->
-      <button class="l-nav__burger" id="navBurger" aria-label="Öppna meny" aria-expanded="false">
+      <button class="l-nav__burger" id="navBurger" aria-label="Meny" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </nav>
 
-    <!-- Mobile drawer -->
-    <div class="l-drawer" id="navDrawer" aria-hidden="true">
+    <div class="l-drawer" id="navDrawer">
       <a href="index.html">Böcker</a>
       <a href="login.html">Logga in</a>
       <a href="register.html" class="l-btn l-btn--primary">Kom igång gratis</a>
     </div>
 
-    <!-- ══════════════════════════════════════
-         SCENE 1 — HERO
-         image: images/scene1.jpg
-    ══════════════════════════════════════ -->
-    <section id="s1" class="scene" aria-label="Välkommen till StoryDucks">
-      <div class="scene__bg" id="s1Bg"
-        style="background-image: url('images/scene1.jpg');">
-      </div>
-      <div class="scene__overlay scene__overlay--hero"></div>
+    <!-- ══════════════════════════════════════════
+         PINNED SCROLL HERO
+         Boken/stjärnor/ankor orbitar runt ankan
+    ══════════════════════════════════════════ -->
+    <div id="heroPinWrap">
+      <section id="heroScene" class="hero-scene">
 
-      <div class="scene__body scene__body--center">
-
-        <!-- Logo mark -->
-        <div class="hero-logo sd-anim" data-anim="fade-up" data-delay="0">
-          <svg width="72" height="72" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <ellipse cx="18" cy="22" rx="13" ry="10" fill="#c89f5d"/>
-            <ellipse cx="18" cy="21" rx="10" ry="8" fill="#2f451f"/>
-            <circle cx="18" cy="13" r="7" fill="#2f451f"/>
-            <circle cx="15.5" cy="11.5" r="1.5" fill="white"/>
-            <ellipse cx="21" cy="14" rx="3" ry="1.5" fill="#c89f5d" transform="rotate(15 21 14)"/>
-            <rect x="13" y="20" width="10" height="7" rx="1" fill="#fffdf8"/>
-            <rect x="13" y="20" width="5" height="7" rx="1" fill="#f3ead8"/>
-            <line x1="18" y1="20" x2="18" y2="27" stroke="#dfd2b8" stroke-width="0.8"/>
-            <ellipse cx="8" cy="24" rx="4" ry="5" fill="#c89f5d" transform="rotate(-20 8 24)"/>
-          </svg>
+        <!-- Gradient background orbs -->
+        <div class="hero-bg" aria-hidden="true">
+          <div class="bg-orb bg-orb--1"></div>
+          <div class="bg-orb bg-orb--2"></div>
+          <div class="bg-orb bg-orb--3"></div>
         </div>
 
-        <h1 class="hero-title sd-anim" data-anim="fade-up" data-delay="100">
-          <span class="t-green">Story</span><span class="t-gold">Ducks</span>
-        </h1>
-
-        <p class="hero-tagline sd-anim" data-anim="fade-up" data-delay="200">
-          Upptäck magiska böcker för små läsare
-        </p>
-
-        <p class="hero-sub sd-anim" data-anim="fade-up" data-delay="300">
-          Sök, spara och betygsätt barnböcker i en varm<br class="br-desk" />
-          och lekfull läsvärld skapad för hela familjen.
-        </p>
-
-        <div class="hero-cta sd-anim" data-anim="fade-up" data-delay="420">
-          <a href="index.html" class="l-btn l-btn--primary l-btn--lg">
-            Utforska böcker
-          </a>
-          <a href="register.html" class="l-btn l-btn--ghost l-btn--lg">
-            Skapa konto gratis
-          </a>
+        <!-- Orbiting elements (books, stars, ducks) -->
+        <div class="hero-orbit" aria-hidden="true">
+          <!-- Books -->
+          <div class="orb-el orb-book" id="ob1" style="--clr1:#d4e6b5;--clr2:#7aac55">📖</div>
+          <div class="orb-el orb-book" id="ob2" style="--clr1:#fde68a;--clr2:#e08c00">🦁</div>
+          <div class="orb-el orb-book" id="ob3" style="--clr1:#c7d2fe;--clr2:#6366f1">🌙</div>
+          <div class="orb-el orb-book" id="ob4" style="--clr1:#a7f3d0;--clr2:#059669">🐰</div>
+          <div class="orb-el orb-book" id="ob5" style="--clr1:#fed7aa;--clr2:#f97316">🧙</div>
+          <div class="orb-el orb-book" id="ob6" style="--clr1:#fbcfe8;--clr2:#db2777">🐻</div>
+          <!-- Stars -->
+          <div class="orb-el orb-star" id="os1">⭐</div>
+          <div class="orb-el orb-star" id="os2">✨</div>
+          <div class="orb-el orb-star" id="os3">🌟</div>
+          <div class="orb-el orb-star" id="os4">⭐</div>
+          <!-- Ducks & elements -->
+          <div class="orb-el orb-duck" id="od1">🦆</div>
+          <div class="orb-el orb-duck" id="od2">🦆</div>
+          <div class="orb-el orb-mark" id="om1">🔖</div>
+          <div class="orb-el orb-mark" id="om2">🔖</div>
+          <div class="orb-el orb-cloud" id="oc1">☁️</div>
+          <div class="orb-el orb-cloud" id="oc2">☁️</div>
         </div>
-      </div>
 
-      <div class="scene__scroll-cue" aria-hidden="true">
-        <span>Scrolla</span>
-        <div class="scroll-cue__arrow"></div>
-      </div>
-    </section>
+        <!-- Central content -->
+        <div class="hero-center">
+          <div class="hero-duck-wrap" id="heroDuck">
+            <svg width="120" height="120" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="20" cy="26" rx="14" ry="11" fill="#c89f5d"/>
+              <ellipse cx="20" cy="24" rx="11" ry="9" fill="#2f451f"/>
+              <circle cx="20" cy="15" r="8" fill="#2f451f"/>
+              <circle cx="17" cy="13" r="1.8" fill="white"/>
+              <ellipse cx="24" cy="16" rx="3.5" ry="1.8" fill="#c89f5d" transform="rotate(15 24 16)"/>
+              <rect x="14" y="23" width="12" height="8" rx="1.5" fill="#fffdf8"/>
+              <rect x="14" y="23" width="6" height="8" rx="1.5" fill="#f3ead8"/>
+              <line x1="20" y1="23" x2="20" y2="31" stroke="#dfd2b8" stroke-width="1"/>
+              <ellipse cx="8" cy="27" rx="5" ry="6" fill="#c89f5d" transform="rotate(-20 8 27)"/>
+            </svg>
+          </div>
 
-    <!-- ══════════════════════════════════════
-         SCENE 2 — DISCOVER
-         image: images/scene2.jpg
-    ══════════════════════════════════════ -->
+          <h1 class="hero-h1" id="heroTitle">
+            <span class="h1-story">Story</span><span class="h1-ducks">Ducks</span>
+          </h1>
+
+          <p class="hero-tagline" id="heroTagline">
+            Upptäck magiska böcker för små läsare
+          </p>
+
+          <p class="hero-sub" id="heroSub">
+            Sök, spara och betygsätt barnböcker i en varm<br />
+            och lekfull läsvärld skapad för hela familjen.
+          </p>
+
+          <div class="hero-cta" id="heroCta">
+            <a href="index.html" class="l-btn l-btn--primary l-btn--lg">Utforska böcker</a>
+            <a href="register.html" class="l-btn l-btn--ghost l-btn--lg">Skapa konto gratis</a>
+          </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="hero-scroll-cue" id="scrollCue">
+          <span>Scrolla</span>
+          <div class="cue-line"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         SCENE 2 — Discover (image 2)
+    ══════════════════════════════════════════ -->
     <section id="s2" class="scene" aria-label="Upptäck böcker">
-      <div class="scene__bg" id="s2Bg"
-        style="background-image: url('images/scene2.jpg');">
-      </div>
-      <div class="scene__overlay scene__overlay--left"></div>
-
+      <div class="scene__bg" style="background-image:url('images/scene2.jpg')"></div>
+      <div class="scene__overlay scene__overlay--left-heavy"></div>
       <div class="scene__body scene__body--left">
-        <span class="scene__chip sd-anim" data-anim="fade-left">I / VII</span>
-        <h2 class="scene__title sd-anim" data-anim="fade-left" data-delay="80">
+        <span class="scene__chip" data-anim="fade-left">I / VI — Upptäck</span>
+        <h2 class="scene__title" data-anim="fade-left" data-delay="80">
           Hitta nästa<br />magiska bok
         </h2>
-        <p class="scene__desc sd-anim" data-anim="fade-left" data-delay="160">
+        <p class="scene__desc" data-anim="fade-left" data-delay="160">
           Bläddra bland barnböcker, sagor och klassiker i en lugn
           och lekfull miljö — för barn i alla åldrar.
         </p>
-        <div class="sd-anim" data-anim="fade-left" data-delay="240">
+        <div data-anim="fade-left" data-delay="240">
           <a href="index.html" class="l-btn l-btn--primary">Se alla böcker</a>
         </div>
       </div>
     </section>
 
-    <!-- ══════════════════════════════════════
-         SCENE 3 — ADVENTURE / VORTEX
-         image: images/scene3.jpg
-    ══════════════════════════════════════ -->
+    <!-- ══════════════════════════════════════════
+         SCENE 3 — Vortex (image 3)
+    ══════════════════════════════════════════ -->
     <section id="s3" class="scene" aria-label="Läsäventyr">
-      <div class="scene__bg" id="s3Bg"
-        style="background-image: url('images/scene3.jpg');">
-      </div>
-      <div class="scene__overlay scene__overlay--center"></div>
-
+      <div class="scene__bg" style="background-image:url('images/scene3.jpg')"></div>
+      <div class="scene__overlay scene__overlay--center-heavy"></div>
       <div class="scene__body scene__body--center">
-        <span class="scene__chip scene__chip--light sd-anim" data-anim="fade-up">II / VII</span>
-        <h2 class="scene__title scene__title--light sd-anim" data-anim="fade-up" data-delay="80">
+        <span class="scene__chip scene__chip--light" data-anim="fade-up">II / VI — Äventyr</span>
+        <h2 class="scene__title scene__title--light" data-anim="fade-up" data-delay="80">
           Varje bok öppnar<br />en ny värld
         </h2>
-        <p class="scene__desc scene__desc--light sd-anim" data-anim="fade-up" data-delay="160">
+        <p class="scene__desc scene__desc--light" data-anim="fade-up" data-delay="160">
           Följ berättelser, upptäck karaktärer och låt barnets
           fantasi växa med varje sida som vänds.
         </p>
       </div>
     </section>
 
-    <!-- ══════════════════════════════════════
-         SCENE 4 — MAGIC BURST
-         image: images/scene4.jpg
-    ══════════════════════════════════════ -->
-    <section id="s4" class="scene" aria-label="Magi och äventyr">
-      <div class="scene__bg" id="s4Bg"
-        style="background-image: url('images/scene4.jpg');">
-      </div>
-      <div class="scene__overlay scene__overlay--bottom"></div>
-
+    <!-- ══════════════════════════════════════════
+         SCENE 4 — Burst (image 4)
+    ══════════════════════════════════════════ -->
+    <section id="s4" class="scene" aria-label="Magi">
+      <div class="scene__bg" style="background-image:url('images/scene4.jpg')"></div>
+      <div class="scene__overlay scene__overlay--bottom-heavy"></div>
       <div class="scene__body scene__body--center scene__body--bottom">
-        <span class="scene__chip sd-anim" data-anim="fade-up">III / VII</span>
-        <h2 class="scene__title sd-anim" data-anim="fade-up" data-delay="80">
+        <span class="scene__chip" data-anim="fade-up">III / VI — Magi</span>
+        <h2 class="scene__title" data-anim="fade-up" data-delay="80">
           En trygg plats<br />för små läsare
         </h2>
-        <p class="scene__desc sd-anim" data-anim="fade-up" data-delay="160">
+        <p class="scene__desc" data-anim="fade-up" data-delay="160">
           En varm digital läsmiljö där böcker känns roliga,
           enkla och inspirerande.
         </p>
       </div>
     </section>
 
-    <!-- ══════════════════════════════════════
-         SCENE 5 — BOKHYLLA (CSS-baserad)
-    ══════════════════════════════════════ -->
+    <!-- ══════════════════════════════════════════
+         SCENE 5 — Bokhylla (CSS)
+    ══════════════════════════════════════════ -->
     <section id="s5" class="scene scene--shelf" aria-label="Spara favoriter">
-
-      <!-- Decorative floating books (CSS-only) -->
       <div class="shelf-deco" aria-hidden="true">
-        <div class="shelf-book shelf-book--1">
-          <div class="sb-cover">🐰</div>
-          <div class="sb-spine"></div>
-        </div>
-        <div class="shelf-book shelf-book--2">
-          <div class="sb-cover">🦁</div>
-          <div class="sb-spine"></div>
-        </div>
-        <div class="shelf-book shelf-book--3">
-          <div class="sb-cover">🌙</div>
-          <div class="sb-spine"></div>
-        </div>
-        <div class="shelf-book shelf-book--4">
-          <div class="sb-cover">🧙</div>
-          <div class="sb-spine"></div>
-        </div>
-        <div class="shelf-book shelf-book--5">
-          <div class="sb-cover">🐻</div>
-          <div class="sb-spine"></div>
-        </div>
-        <div class="shelf-star shelf-star--1">⭐</div>
-        <div class="shelf-star shelf-star--2">✨</div>
-        <div class="shelf-star shelf-star--3">🌟</div>
-        <div class="shelf-bookmark shelf-bookmark--1">🔖</div>
-        <div class="shelf-bookmark shelf-bookmark--2">🔖</div>
-        <div class="shelf-duck">🦆</div>
+        <div class="shelf-book sb--1">📖</div>
+        <div class="shelf-book sb--2">🦁</div>
+        <div class="shelf-book sb--3">🌙</div>
+        <div class="shelf-book sb--4">🧙</div>
+        <div class="shelf-book sb--5">🐻</div>
+        <div class="shelf-fx sf--star1">⭐</div>
+        <div class="shelf-fx sf--star2">✨</div>
+        <div class="shelf-fx sf--mark1">🔖</div>
+        <div class="shelf-fx sf--duck">🦆</div>
       </div>
-
       <div class="scene__body scene__body--left">
-        <span class="scene__chip scene__chip--warm sd-anim" data-anim="fade-left">IV / VII — Spara</span>
-        <h2 class="scene__title sd-anim" data-anim="fade-left" data-delay="80">
+        <span class="scene__chip scene__chip--warm" data-anim="fade-left">IV / VI — Spara</span>
+        <h2 class="scene__title" data-anim="fade-left" data-delay="80">
           Bygg din<br />egen bokhylla
         </h2>
-        <p class="scene__desc sd-anim" data-anim="fade-left" data-delay="160">
-          Spara böcker du vill läsa senare och hitta alltid
+        <p class="scene__desc" data-anim="fade-left" data-delay="160">
+          Spara böcker du vill läsa och hitta alltid
           tillbaka till dina favoriter — på ett ställe.
         </p>
-
-        <!-- Reading list preview card -->
-        <div class="shelf-preview sd-anim" data-anim="fade-left" data-delay="260">
-          <div class="shelf-preview__header">
-            <span>🔖</span>
-            <strong>Min läslista</strong>
-            <span class="shelf-preview__count">3 böcker</span>
-          </div>
-          <div class="shelf-preview__item">
-            <div class="spi-cover" style="background:linear-gradient(135deg,#d4e6b5,#8fb96a)">🐰</div>
-            <div class="spi-info"><strong>Kaninen som inte ville sova</strong><span>Sparad ✓</span></div>
-          </div>
-          <div class="shelf-preview__item">
-            <div class="spi-cover" style="background:linear-gradient(135deg,#fde68a,#f59e0b)">🦁</div>
-            <div class="spi-info"><strong>Lejonhjärtat</strong><span>Sparad ✓</span></div>
-          </div>
-          <div class="shelf-preview__item">
-            <div class="spi-cover" style="background:linear-gradient(135deg,#c7d2fe,#818cf8)">🌙</div>
-            <div class="spi-info"><strong>Godnatt, Alfons Åberg</strong><span>Sparad ✓</span></div>
-          </div>
+        <div class="shelf-card" data-anim="fade-left" data-delay="260">
+          <div class="sc-head"><span>🔖</span><strong>Min läslista</strong><em>3 böcker</em></div>
+          <div class="sc-item"><div class="sc-cover" style="background:linear-gradient(135deg,#d4e6b5,#8fb96a)">🐰</div><span>Kaninen som inte ville sova</span></div>
+          <div class="sc-item"><div class="sc-cover" style="background:linear-gradient(135deg,#fde68a,#f59e0b)">🦁</div><span>Lejonhjärtat</span></div>
+          <div class="sc-item"><div class="sc-cover" style="background:linear-gradient(135deg,#c7d2fe,#818cf8)">🌙</div><span>Godnatt, Alfons Åberg</span></div>
         </div>
-
-        <div class="sd-anim" data-anim="fade-left" data-delay="340" style="margin-top:28px;">
+        <div data-anim="fade-left" data-delay="340" style="margin-top:24px">
           <a href="register.html" class="l-btn l-btn--primary">Skapa konto gratis</a>
         </div>
       </div>
     </section>
 
-    <!-- ══════════════════════════════════════
-         SCENE 6 — APP PREVIEW (CSS-baserad)
-         Baserad på den riktiga webbplatsstilen
-    ══════════════════════════════════════ -->
-    <section id="s6" class="scene scene--app" aria-label="Appen i detalj">
-
-      <div class="scene__body scene__body--center">
-        <span class="scene__chip scene__chip--green sd-anim" data-anim="fade-up">V / VII — Utforska</span>
-        <h2 class="scene__title scene__title--dark sd-anim" data-anim="fade-up" data-delay="80">
-          Alla böcker på<br />ett ställe
+    <!-- ══════════════════════════════════════════
+         SCENE 6 — App preview (CSS)
+    ══════════════════════════════════════════ -->
+    <section id="s6" class="scene scene--app" aria-label="Appen">
+      <div class="scene__body scene__body--center" style="margin-bottom:32px">
+        <span class="scene__chip scene__chip--green" data-anim="fade-up">V / VI — Utforska</span>
+        <h2 class="scene__title scene__title--dark" data-anim="fade-up" data-delay="80">
+          Alla böcker<br />på ett ställe
         </h2>
-        <p class="scene__desc scene__desc--dark sd-anim" data-anim="fade-up" data-delay="160">
-          Sök efter böcker eller författare och hitta nästa
-          läsäventyr direkt — enkelt och snabbt.
+        <p class="scene__desc scene__desc--dark" data-anim="fade-up" data-delay="160">
+          Sök efter böcker eller författare och hitta nästa läsäventyr direkt.
         </p>
       </div>
-
-      <!-- App window mockup -->
-      <div class="app-window sd-anim" data-anim="scale-up" data-delay="100">
-        <!-- Window chrome -->
+      <div class="app-window" data-anim="scale-up" data-delay="120">
         <div class="app-window__bar">
-          <div class="app-window__dots">
-            <i class="dot dot--red"></i>
-            <i class="dot dot--yellow"></i>
-            <i class="dot dot--green"></i>
-          </div>
-          <div class="app-window__url">storyducks.netlify.app</div>
-          <div class="app-window__spacer"></div>
+          <div class="aw-dots"><i class="dot dot--r"></i><i class="dot dot--y"></i><i class="dot dot--g"></i></div>
+          <div class="aw-url">storyducks.netlify.app</div>
+          <div style="flex:1"></div>
         </div>
-
-        <!-- Navbar inside mockup -->
         <div class="mock-nav">
-          <div class="mock-nav__logo">🦆 StoryDucks</div>
-          <div class="mock-nav__actions">
+          <span class="mock-logo">🦆 StoryDucks</span>
+          <div style="display:flex;gap:8px">
             <span class="mock-pill">Logga in</span>
-            <span class="mock-pill mock-pill--filled">Registrera dig</span>
+            <span class="mock-pill mock-pill--filled">Registrera</span>
           </div>
         </div>
-
-        <!-- Content inside mockup -->
-        <div class="mock-content">
-          <!-- Search bar -->
-          <div class="mock-search">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-            Sök böcker eller författare...
-          </div>
-
-          <div class="mock-heading">Alla böcker <span class="mock-star">✦</span></div>
-
-          <!-- Book grid -->
+        <div class="mock-body">
+          <div class="mock-search">🔍 &nbsp;Sök böcker eller författare...</div>
+          <div class="mock-heading">Alla böcker <span style="color:var(--accent)">✦</span></div>
           <div class="mock-grid">
-            <div class="mock-card">
-              <div class="mock-card__cover" style="background:linear-gradient(135deg,#d4e6b5,#8fb96a)">🐰</div>
-              <div class="mock-card__info">
-                <strong>Kaninen som inte ville sova</strong>
-                <span>Carl-Johan Forssén Ehrlin</span>
-              </div>
-            </div>
-            <div class="mock-card">
-              <div class="mock-card__cover" style="background:linear-gradient(135deg,#fde68a,#f59e0b)">🦁</div>
-              <div class="mock-card__info">
-                <strong>Lejonhjärtat</strong>
-                <span>Astrid Lindgren</span>
-              </div>
-            </div>
-            <div class="mock-card">
-              <div class="mock-card__cover" style="background:linear-gradient(135deg,#c7d2fe,#818cf8)">🌙</div>
-              <div class="mock-card__info">
-                <strong>Godnatt, Alfons Åberg</strong>
-                <span>Gunilla Bergström</span>
-              </div>
-            </div>
-            <div class="mock-card">
-              <div class="mock-card__cover" style="background:linear-gradient(135deg,#fed7aa,#f97316)">🐻</div>
-              <div class="mock-card__info">
-                <strong>Nalle Puh</strong>
-                <span>A. A. Milne</span>
-              </div>
-            </div>
-            <div class="mock-card">
-              <div class="mock-card__cover" style="background:linear-gradient(135deg,#a7f3d0,#059669)">🧙</div>
-              <div class="mock-card__info">
-                <strong>Mio, min Mio</strong>
-                <span>Astrid Lindgren</span>
-              </div>
-            </div>
-            <div class="mock-card">
-              <div class="mock-card__cover" style="background:linear-gradient(135deg,#fbcfe8,#db2777)">🦊</div>
-              <div class="mock-card__info">
-                <strong>Emil i Lönneberga</strong>
-                <span>Astrid Lindgren</span>
-              </div>
-            </div>
+            <div class="mock-card"><div class="mc-cover" style="background:linear-gradient(135deg,#d4e6b5,#8fb96a)">🐰</div><div class="mc-info"><b>Kaninen som inte ville sova</b><s>Carl-Johan Forssén Ehrlin</s></div></div>
+            <div class="mock-card"><div class="mc-cover" style="background:linear-gradient(135deg,#fde68a,#f59e0b)">🦁</div><div class="mc-info"><b>Lejonhjärtat</b><s>Astrid Lindgren</s></div></div>
+            <div class="mock-card"><div class="mc-cover" style="background:linear-gradient(135deg,#c7d2fe,#818cf8)">🌙</div><div class="mc-info"><b>Godnatt, Alfons</b><s>Gunilla Bergström</s></div></div>
+            <div class="mock-card"><div class="mc-cover" style="background:linear-gradient(135deg,#a7f3d0,#059669)">🧙</div><div class="mc-info"><b>Mio, min Mio</b><s>Astrid Lindgren</s></div></div>
+            <div class="mock-card"><div class="mc-cover" style="background:linear-gradient(135deg,#fed7aa,#f97316)">🐻</div><div class="mc-info"><b>Nalle Puh</b><s>A. A. Milne</s></div></div>
+            <div class="mock-card"><div class="mc-cover" style="background:linear-gradient(135deg,#fbcfe8,#db2777)">🦊</div><div class="mc-info"><b>Emil i Lönneberga</b><s>Astrid Lindgren</s></div></div>
           </div>
         </div>
       </div>
-
-      <div class="s6-cta sd-anim" data-anim="fade-up">
+      <div data-anim="fade-up" style="margin-top:36px;display:flex;justify-content:center">
         <a href="index.html" class="l-btn l-btn--primary l-btn--lg">Gå till böckerna</a>
       </div>
     </section>
 
-    <!-- ══════════════════════════════════════
-         SCENE 7 — FEATURES + FINAL CTA (CSS-baserad)
-    ══════════════════════════════════════ -->
+    <!-- ══════════════════════════════════════════
+         SCENE 7 — Final CTA (CSS)
+    ══════════════════════════════════════════ -->
     <section id="s7" class="scene scene--cta" aria-label="Kom igång">
-
+      <div class="cta-deco" aria-hidden="true">
+        <span style="top:10%;left:8%;animation-delay:0s">📖</span>
+        <span style="top:18%;right:10%;animation-delay:1.1s">⭐</span>
+        <span style="bottom:25%;left:6%;animation-delay:.6s">🔖</span>
+        <span style="bottom:18%;right:8%;animation-delay:1.5s">🦆</span>
+        <span style="top:48%;left:4%;animation-delay:2s">✨</span>
+        <span style="top:42%;right:5%;animation-delay:.3s">🌿</span>
+      </div>
       <div class="cta-inner">
-        <!-- Logo reveal -->
-        <div class="cta-logo sd-anim" data-anim="fade-up">
-          <svg width="64" height="64" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <ellipse cx="18" cy="22" rx="13" ry="10" fill="#c89f5d"/>
-            <ellipse cx="18" cy="21" rx="10" ry="8" fill="#dbe8c7" opacity="0.4"/>
-            <ellipse cx="18" cy="21" rx="10" ry="8" fill="#4f6f2f"/>
-            <circle cx="18" cy="13" r="7" fill="#4f6f2f"/>
-            <circle cx="15.5" cy="11.5" r="1.5" fill="white"/>
-            <ellipse cx="21" cy="14" rx="3" ry="1.5" fill="#c89f5d" transform="rotate(15 21 14)"/>
-            <rect x="13" y="20" width="10" height="7" rx="1" fill="#fffdf8"/>
-            <rect x="13" y="20" width="5" height="7" rx="1" fill="#f3ead8"/>
-            <line x1="18" y1="20" x2="18" y2="27" stroke="#dfd2b8" stroke-width="0.8"/>
-            <ellipse cx="8" cy="24" rx="4" ry="5" fill="#c89f5d" transform="rotate(-20 8 24)"/>
+        <div class="cta-logo" data-anim="fade-up">
+          <svg width="72" height="72" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="20" cy="26" rx="14" ry="11" fill="#c89f5d" opacity=".7"/>
+            <ellipse cx="20" cy="24" rx="11" ry="9" fill="#4f6f2f"/>
+            <circle cx="20" cy="15" r="8" fill="#4f6f2f"/>
+            <circle cx="17" cy="13" r="1.8" fill="white"/>
+            <ellipse cx="24" cy="16" rx="3.5" ry="1.8" fill="#c89f5d" transform="rotate(15 24 16)"/>
+            <rect x="14" y="23" width="12" height="8" rx="1.5" fill="#fffdf8"/>
+            <rect x="14" y="23" width="6" height="8" rx="1.5" fill="#f3ead8"/>
+            <line x1="20" y1="23" x2="20" y2="31" stroke="#dfd2b8" stroke-width="1"/>
+            <ellipse cx="8" cy="27" rx="5" ry="6" fill="#c89f5d" transform="rotate(-20 8 27)"/>
           </svg>
         </div>
-
-        <span class="scene__chip scene__chip--gold sd-anim" data-anim="fade-up" data-delay="60">VI / VII — Börja läsa</span>
-
-        <h2 class="cta-title sd-anim" data-anim="fade-up" data-delay="120">
+        <span class="scene__chip scene__chip--gold" data-anim="fade-up" data-delay="60">VI / VI — Börja läsa</span>
+        <h2 class="cta-h2" data-anim="fade-up" data-delay="120">
           Redo för nästa<br />bokäventyr?
         </h2>
-
-        <p class="cta-sub sd-anim" data-anim="fade-up" data-delay="200">
-          Skapa ett konto, spara favoriter och låt<br class="br-desk" />
+        <p class="cta-sub" data-anim="fade-up" data-delay="200">
+          Skapa ett konto, spara favoriter och låt<br />
           läsningen börja — gratis för hela familjen.
         </p>
-
-        <!-- Feature pills -->
-        <div class="cta-features sd-anim" data-anim="fade-up" data-delay="280">
+        <div class="cta-pills" data-anim="fade-up" data-delay="280">
           <div class="feat-pill">📚 Hundratals böcker</div>
           <div class="feat-pill">🔖 Spara favoriter</div>
           <div class="feat-pill">⭐ Betygsätt böcker</div>
           <div class="feat-pill">🔍 Sök enkelt</div>
         </div>
-
-        <div class="cta-buttons sd-anim" data-anim="fade-up" data-delay="360">
-          <a href="register.html" class="l-btn l-btn--gold l-btn--lg">
-            Registrera dig — gratis
-          </a>
-          <a href="index.html" class="l-btn l-btn--ghost-light l-btn--lg">
-            Utforska böcker
-          </a>
+        <div class="cta-btns" data-anim="fade-up" data-delay="360">
+          <a href="register.html" class="l-btn l-btn--gold l-btn--lg">Registrera dig — gratis</a>
+          <a href="index.html" class="l-btn l-btn--ghost-light l-btn--lg">Utforska böcker</a>
         </div>
-      </div>
-
-      <!-- Decorative bg elements -->
-      <div class="cta-bg-deco" aria-hidden="true">
-        <span class="deco-el" style="top:8%;left:6%;font-size:2rem;animation-delay:0s;">📖</span>
-        <span class="deco-el" style="top:15%;right:8%;font-size:1.6rem;animation-delay:1s;">⭐</span>
-        <span class="deco-el" style="bottom:22%;left:5%;font-size:1.4rem;animation-delay:0.6s;">🔖</span>
-        <span class="deco-el" style="bottom:15%;right:6%;font-size:1.8rem;animation-delay:1.4s;">🦆</span>
-        <span class="deco-el" style="top:45%;left:3%;font-size:1.2rem;animation-delay:2s;">✨</span>
-        <span class="deco-el" style="top:38%;right:4%;font-size:1.3rem;animation-delay:0.3s;">🌿</span>
       </div>
     </section>
 
-    <!-- ══════════════════════════════════════
-         FOOTER
-    ══════════════════════════════════════ -->
-    <footer class="l-footer" role="contentinfo">
+    <!-- FOOTER -->
+    <footer class="l-footer">
       <div class="l-footer__inner">
         <div class="l-footer__brand">
-          <div class="l-footer__logo">
-            <svg width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <ellipse cx="18" cy="22" rx="13" ry="10" fill="#c89f5d" opacity="0.6"/>
-              <ellipse cx="18" cy="21" rx="10" ry="8" fill="#dbe8c7" opacity="0.3"/>
-              <circle cx="18" cy="13" r="7" fill="rgba(219,232,199,0.6)"/>
-              <circle cx="15.5" cy="11.5" r="1.5" fill="white" opacity="0.8"/>
-              <ellipse cx="21" cy="14" rx="3" ry="1.5" fill="#c89f5d" opacity="0.7" transform="rotate(15 21 14)"/>
-              <rect x="13" y="20" width="10" height="7" rx="1" fill="rgba(255,253,248,0.5)"/>
-            </svg>
-            <span>Story<em>Ducks</em></span>
-          </div>
+          <div class="l-footer__logo">🦆 Story<em>Ducks</em></div>
           <p>Upptäck magiska böcker för små läsare.</p>
         </div>
-
-        <nav class="l-footer__links" aria-label="Sidfotslänkar">
+        <nav class="l-footer__links">
           <h3>Utforska</h3>
           <a href="landing.html">Hem</a>
           <a href="index.html">Böcker</a>
           <a href="login.html">Logga in</a>
           <a href="register.html">Registrera dig</a>
         </nav>
-
-        <nav class="l-footer__links" aria-label="Kontaktlänkar">
+        <nav class="l-footer__links">
           <h3>Kontakt</h3>
           <a href="https://frida-portfolio.com" target="_blank" rel="noopener">Portfolio</a>
           <a href="https://github.com/Frida1989" target="_blank" rel="noopener">GitHub</a>
           <a href="https://linkedin.com/in/farideh-pakdaman" target="_blank" rel="noopener">LinkedIn</a>
         </nav>
       </div>
-
       <div class="l-footer__bottom">
-        <p>© 2025 StoryDucks — Designed &amp; developed by Frida</p>
-        <p>Alla rättigheter förbehållna</p>
+        <p>© 2025 StoryDucks — Designed &amp; developed by Frida ✨</p>
       </div>
     </footer>
 
-    <!-- GSAP -->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
     <script src="landing.js"></script>
