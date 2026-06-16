@@ -577,7 +577,7 @@ function renderReadBooks() {
         <h3>${book.title}</h3>
         <p>${book.author}</p>
       </div>
-      <button class="unread-btn" data-book-id="${book.documentId}" title="Flytta tillbaka till läslista">✕</button>
+      <button class="unread-btn" data-book-id="${book.documentId}" aria-label="Ta bort från lästa böcker">✕</button>
     `;
     readBooksContainer.appendChild(item);
   });
@@ -664,11 +664,6 @@ async function submitRating(book, score) {
 
     showToast(`Betyg ${score}/10 sparat!`);
   } catch (error) {
-    console.log(
-      "Rating error full:",
-      JSON.stringify(error.response?.data, null, 2),
-    );
-
     showToast("Kunde inte spara betyget.", "error");
   }
 }
@@ -683,24 +678,31 @@ async function renderUserRatedBooksOnProfile(sortBy = "title") {
   }
 
   try {
-    const response = await axios.get(`${API_URL}/ratings`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const me = await getCurrentUser();
+    const response = await axios.get(
+      `${API_URL}/ratings?filters[user][id][$eq]=${me.id}&populate[book][populate]=*`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
 
     let ratings = response.data.data;
+
+    // remove duplicate ratings for same book (keep highest scored or latest)
+    const seen = new Map();
+    ratings.forEach(r => {
+      const docId = r.book?.documentId;
+      if (!docId) return;
+      if (!seen.has(docId) || r.score > seen.get(docId).score) seen.set(docId, r);
+    });
+    ratings = Array.from(seen.values());
+
     ratings.sort((a, b) => {
       const bookA = a.book;
       const bookB = b.book;
-
-      if (sortBy === "score") {
-        return b.score - a.score;
-      }
-
+      if (sortBy === "score") return b.score - a.score;
       const valueA = (bookA?.[sortBy] || "").toLowerCase();
       const valueB = (bookB?.[sortBy] || "").toLowerCase();
-
       return valueA.localeCompare(valueB, "sv");
     });
 
@@ -718,32 +720,24 @@ async function renderUserRatedBooksOnProfile(sortBy = "title") {
 
     ratings.forEach((rating) => {
       const book = rating.book;
-
       if (!book) return;
 
       const imageUrl = getMediaUrl(book.coverImage);
-
       const item = document.createElement("article");
-
       item.classList.add("rated-book-item");
-
       item.innerHTML = `
-        ${
-          imageUrl
-            ? `<img src="${imageUrl}" alt="${book.title}" />`
-            : `<div class="book-placeholder small"></div>`
+        ${imageUrl
+          ? `<img src="${imageUrl}" alt="${book.title}" />`
+          : `<div class="book-placeholder small"></div>`
         }
-
         <div class="rated-book-info">
           <h3>${book.title}</h3>
           <p>${book.author}</p>
         </div>
-
         <div class="rated-score">
-          ★ ${rating.score}/10
+          <span class="score-star">★</span> ${rating.score}<span class="score-denom">/10</span>
         </div>
       `;
-
       ratedBooksContainer.appendChild(item);
     });
   } catch (error) {
