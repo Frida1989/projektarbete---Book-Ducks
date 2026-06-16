@@ -33,20 +33,32 @@
   const BOOKS = Array.from(document.querySelectorAll(".orb-book"));
   const N     = BOOKS.length;
 
+  /* Book spine data — sophisticated brand palette, no emoji */
+  const SPINE_DATA = [
+    { label: 'Ronja',   hue: 130 },  /* dark forest green */
+    { label: 'Emil',    hue: 42  },  /* dark olive gold */
+    { label: 'Alfons',  hue: 205 },  /* dark teal */
+    { label: 'Pippi',   hue: 8   },  /* dark terracotta */
+    { label: 'Bamse',   hue: 162 },  /* dark sage */
+    { label: 'Astrid',  hue: 270 },  /* dark plum */
+  ];
+
   function positionBooks() {
     const vmin = Math.min(window.innerWidth, window.innerHeight);
-    const r = vmin * 0.36; // bigger radius
+    const r = vmin * 0.36;
     BOOKS.forEach((book, i) => {
       const angle = (i / N) * 360;
       const rad   = (angle - 90) * (Math.PI / 180);
       const x     = Math.cos(rad) * r;
       const y     = Math.sin(rad) * r;
+      const data  = SPINE_DATA[i] || { label: 'Book', hue: 130 };
+      book.style.setProperty('--hue', data.hue);
+      book.innerHTML = `<span>${data.label}</span>`;
       gsap.set(book, {
         x: x - book.offsetWidth  / 2,
         y: y - book.offsetHeight / 2,
         rotation: 0,
       });
-      book.innerHTML = `<span style="position:relative;z-index:1">${book.dataset.emoji}</span>`;
     });
   }
 
