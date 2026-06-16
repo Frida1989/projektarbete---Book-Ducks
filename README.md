@@ -1,27 +1,76 @@
- Book Ducks
- https://bookducks.netlify.app/index.html
+# StoryDucks
 
-Book Ducks is a modern book web app built with HTML, CSS, JavaScript and Strapi CMS.
+En webbapp för föräldrar som vill hitta barnböcker, sätta betyg och hålla koll på vad de läst.
 
-Users can:
-- Explore books
-- Create an account and log in
-- Save books to a personal reading list
-- Rate books from 1–10
-- View their saved and rated books on a profile page
-
-The project also includes:
-- Average ratings
-- Sorting functionality
-- Admin-controlled themes
-- Dark mode via Strapi CMS
+**Live:** https://bookducks.netlify.app
 
 ---
 
- Built With
+## Vad man kan göra
 
-- HTML
-- CSS
-- JavaScript
-- Axios
-- Strapi 
+- Bläddra bland barnböcker
+- Skapa konto och logga in
+- Spara böcker i en personlig läslista
+- Markera böcker som lästa
+- Sätta betyg 1–10 på böcker
+- Se sin profil med läslista, lästa böcker och betygsättningar
+
+---
+
+## Tekniker
+
+**Frontend**
+- HTML, CSS, JavaScript (vanilla)
+- Axios för API-anrop
+- GSAP för animationer på landningssidan
+
+**Backend**
+- Strapi CMS (headless)
+- SQLite-databas
+
+**Deploy**
+- Frontend: Netlify
+- Backend: körs lokalt / separat server
+
+---
+
+## Komma igång lokalt
+
+### Frontend
+Öppna `frontend/index.html` i en webbläsare eller kör med Live Server.
+
+### Backend
+```bash
+cd backend/my-strapi-project
+npm install
+npm run develop
+```
+Strapi startar på `http://localhost:1337`.
+
+Skapa en `.env` fil i backend-mappen med dina egna värden om det behövs.
+
+---
+
+## Struktur
+
+```
+projektarbete---Book-Ducks/
+├── frontend/
+│   ├── landing.html     # Animerad startsida
+│   ├── index.html       # Alla böcker
+│   ├── details.html     # Bokdetaljer
+│   ├── profile.html     # Användarprofil
+│   ├── login.html
+│   ├── register.html
+│   ├── style.css
+│   ├── index.js
+│   ├── landing.css
+│   └── landing.js
+├── backend/
+│   └── my-strapi-project/
+└── netlify.toml
+```
+
+---
+
+Projektarbete — Farideh Pakdaman
