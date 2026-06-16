@@ -1,5 +1,20 @@
 // globals and DOM elements
 
+function showToast(msg, type) {
+  let toast = document.getElementById("globalToast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "globalToast";
+    toast.className = "toast";
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.className = "toast" + (type === "error" ? " error" : "");
+  requestAnimationFrame(() => toast.classList.add("show"));
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => toast.classList.remove("show"), 3000);
+}
+
 const STRAPI_URL = (
   window.BOOK_DUCKS_CONFIG?.STRAPI_URL || "http://localhost:1337"
 ).replace(/\/+$/, "");
@@ -45,7 +60,7 @@ async function fetchBooks() {
     renderBooks(books);
   } catch (error) {
     console.error("Could not fetch books:", error.response?.data || error);
-    alert("Kunde inte hämta böcker.");
+    showToast("Kunde inte hämta böcker.", "error");
   }
 }
 
@@ -177,6 +192,9 @@ function renderBookDetails(book) {
         <button class="reading-list-btn" data-book-id="${book.documentId}">
           Att läsa-lista
         </button>
+        <button class="mark-read-direct-btn" id="markReadDirectBtn" data-book-id="${book.documentId}">
+          Markera som läst
+        </button>
       </div>
 
       <div class="action-panel">
@@ -213,19 +231,50 @@ function renderBookDetails(book) {
   `;
 
   const readingListBtn = document.querySelector(".reading-list-btn");
+  const markReadDirectBtn = document.getElementById("markReadDirectBtn");
   const ratingButtons = document.querySelectorAll(".rating-stars button");
+  const ratingStarsEl = document.querySelector(".rating-stars");
 
+  // set initial button states
   if (readingListBtn) {
-    readingListBtn.addEventListener("click", () => {
-      addToReadingList(book);
+    const alreadySaved = getReadingList().find(b => b.documentId === book.documentId);
+    if (alreadySaved) {
+      readingListBtn.classList.add("saved");
+      readingListBtn.textContent = "Sparad";
+    }
+    readingListBtn.addEventListener("click", () => addToReadingList(book));
+  }
+
+  if (markReadDirectBtn) {
+    const alreadyRead = getReadBooks().find(b => b.documentId === book.documentId);
+    if (alreadyRead) {
+      markReadDirectBtn.textContent = "Läst";
+      markReadDirectBtn.classList.add("done");
+      markReadDirectBtn.disabled = true;
+    }
+    markReadDirectBtn.addEventListener("click", () => {
+      if (markReadDirectBtn.disabled) return;
+      markAsRead(book);
+      markReadDirectBtn.textContent = "Läst";
+      markReadDirectBtn.classList.add("done");
+      markReadDirectBtn.disabled = true;
+      showToast("Boken markerad som läst!");
     });
   }
 
-  ratingButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const score = Number(button.dataset.rating);
+  // rating stars hover + click feedback
+  ratingButtons.forEach((btn, i) => {
+    btn.addEventListener("mouseenter", () => {
+      ratingButtons.forEach((b, j) => { b.style.color = j <= i ? "#c8911a" : "#b0a880"; });
+    });
+    btn.addEventListener("click", () => {
+      const score = Number(btn.dataset.rating);
+      ratingButtons.forEach((b, j) => { b.style.color = j < score ? "#c8911a" : "#b0a880"; });
       submitRating(book, score);
     });
+  });
+  ratingStarsEl?.addEventListener("mouseleave", () => {
+    ratingButtons.forEach(b => { b.style.color = "#b0a880"; });
   });
 
   updateAverageRating(book.documentId);
@@ -253,7 +302,7 @@ async function register(event) {
     window.location.href = "index.html";
   } catch (error) {
     console.error("Registration failed:", error.response?.data || error);
-    alert("Registrering misslyckades.");
+    showToast("Registrering misslyckades.", "error");
   }
 }
 
@@ -275,7 +324,7 @@ async function login(event) {
     window.location.href = "index.html";
   } catch (error) {
     console.error("Login failed:", error.response?.data || error);
-    alert("Inloggning misslyckades.");
+    showToast("Inloggning misslyckades.", "error");
   }
 }
 
@@ -382,7 +431,6 @@ function addToReadingList(book) {
   const token = localStorage.getItem("token");
 
   if (!token) {
-    alert("Du behöver logga in för att spara böcker.");
     window.location.href = "login.html";
     return;
   }
@@ -394,7 +442,7 @@ function addToReadingList(book) {
   );
 
   if (alreadyExists) {
-    alert("Boken finns redan i din läslista.");
+    showToast("Redan sparad i din läslista.");
     return;
   }
 
@@ -407,6 +455,7 @@ function addToReadingList(book) {
     readingListBtn.classList.add("saved");
     readingListBtn.textContent = "Sparad";
   }
+  showToast("Boken sparad i din läslista!");
 }
 
 function renderReadingList(sortBy = "title") {
@@ -475,7 +524,6 @@ function saveReadBooks(list) {
 function markAsRead(book) {
   const token = localStorage.getItem("token");
   if (!token) {
-    alert("Du behöver logga in.");
     window.location.href = "login.html";
     return;
   }
@@ -583,7 +631,6 @@ async function submitRating(book, score) {
   const token = localStorage.getItem("token");
 
   if (!token) {
-    alert("Du behöver logga in för att betygsätta böcker.");
     window.location.href = "login.html";
     return;
   }
@@ -615,14 +662,14 @@ async function submitRating(book, score) {
 
     await updateAverageRating(book.documentId);
 
-    alert(`Du gav boken ${score}/10 ⭐`);
+    showToast(`Betyg ${score}/10 sparat!`);
   } catch (error) {
     console.log(
       "Rating error full:",
       JSON.stringify(error.response?.data, null, 2),
     );
 
-    alert("Kunde inte spara betyget.");
+    showToast("Kunde inte spara betyget.", "error");
   }
 }
 async function renderUserRatedBooksOnProfile(sortBy = "title") {
