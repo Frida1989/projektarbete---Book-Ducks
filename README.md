@@ -22,11 +22,11 @@ En webbapp för föräldrar som vill hitta barnböcker, sätta betyg och hålla 
 **Frontend**
 - HTML, CSS, JavaScript (vanilla)
 - Axios för API-anrop
-- GSAP för animationer på landningssidan
+
 
 **Backend**
 - Strapi CMS (headless)
-- SQLite-databas
+
 
 **Deploy**
 - Frontend: Netlify
