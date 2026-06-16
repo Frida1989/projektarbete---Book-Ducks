@@ -23,10 +23,11 @@ const loginForm = document.querySelector("#loginForm");
 const bookDetailsContainer = document.getElementById("bookDetailsContainer");
 
 const readingListContainer = document.getElementById("readingListContainer");
-const ratedBooksContainer = document.getElementById("ratedBooksContainer");
+const ratedBooksContainer  = document.getElementById("ratedBooksContainer");
+const readBooksContainer   = document.getElementById("readBooksContainer");
 
 const sortReadingList = document.getElementById("sortReadingList");
-const sortRatedBooks = document.getElementById("sortRatedBooks");
+const sortRatedBooks  = document.getElementById("sortRatedBooks");
 
 const profileUsername = document.getElementById("profileUsername");
 const profileLink = document.getElementById("profileLink");
@@ -317,42 +318,51 @@ async function fetchTheme() {
   }
 }
 function updateAuthUI() {
-  const token = localStorage.getItem("token");
+  const token    = localStorage.getItem("token");
   const username = localStorage.getItem("username");
 
   if (token && username) {
     if (welcomeText) {
-      welcomeText.textContent = `Välkommen tillbaka, ${username} — din nästa bok väntar 📖`;
+      welcomeText.textContent = `Hej, ${username}!`;
     }
+    if (profileLink) profileLink.style.display = "inline-flex";
+    if (logoutBtn)   logoutBtn.style.display   = "inline-flex";
+    if (authButtons) authButtons.style.display = "none";
 
-    if (profileLink) {
-      profileLink.style.display = "inline-flex";
-    }
+    /* Profile page: personalized welcome banner */
+    const greeting    = document.getElementById("profileGreeting");
+    const welcomeMsg  = document.getElementById("profileWelcomeMsg");
+    if (greeting && welcomeMsg) {
+      const hour = new Date().getHours();
+      const timeGreet = hour < 12 ? "God morgon" : hour < 17 ? "God eftermiddag" : "God kväll";
 
-    if (logoutBtn) {
-      logoutBtn.style.display = "inline-flex";
-    }
+      const msgs = [
+        `Kul att du är tillbaka! Se vad som väntar på din läslista.`,
+        `Din litterära resa fortsätter — vad ska du läsa härnäst?`,
+        `Välkommen tillbaka! Dags att utforska nya bokäventyr.`,
+        `Härligt att se dig igen! Kolla dina betyg och sparade böcker.`,
+      ];
+      const randomMsg = msgs[Math.floor(Math.random() * msgs.length)];
 
-    if (authButtons) {
-      authButtons.style.display = "none";
+      greeting.textContent   = `${timeGreet}, ${username}! 👋`;
+      welcomeMsg.textContent = randomMsg;
     }
   } else {
-    if (welcomeText) {
-      welcomeText.textContent = "";
-    }
-
-    if (profileLink) {
-      profileLink.style.display = "none";
-    }
-
-    if (logoutBtn) {
-      logoutBtn.style.display = "none";
-    }
-
-    if (authButtons) {
-      authButtons.style.display = "flex";
-    }
+    if (welcomeText) welcomeText.textContent  = "";
+    if (profileLink) profileLink.style.display = "none";
+    if (logoutBtn)   logoutBtn.style.display   = "none";
+    if (authButtons) authButtons.style.display = "flex";
   }
+}
+
+/* Update stat counters on profile banner */
+function updateProfileStats(ratedCount) {
+  const rl = document.getElementById("statReadingList");
+  const rb = document.getElementById("statReadBooks");
+  const rt = document.getElementById("statRated");
+  if (rl) rl.textContent = getReadingList().length;
+  if (rb) rb.textContent = getReadBooks().length;
+  if (rt && ratedCount !== undefined) rt.textContent = ratedCount;
 }
 
 async function getCurrentUser() {
@@ -437,38 +447,106 @@ function renderReadingList(sortBy = "title") {
 
   readingList.forEach((book) => {
     const imageUrl = getMediaUrl(book.coverImage);
-
     const item = document.createElement("article");
     item.classList.add("reading-list-item");
-
     item.innerHTML = `
-      ${
-        imageUrl
-          ? `<img src="${imageUrl}" alt="${book.title}" />`
-          : `<div class="book-placeholder small"></div>`
-      }
-
+      ${imageUrl
+        ? `<img src="${imageUrl}" alt="${book.title}" />`
+        : `<div class="book-placeholder small"></div>`}
       <div>
         <h3>${book.title}</h3>
         <p>${book.author}</p>
       </div>
-
-      <button class="remove-reading-btn" data-book-id="${book.documentId}">
-        Ta bort
-      </button>
+      <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+        <button class="mark-read-btn" data-book-id="${book.documentId}" title="Markera som läst">✓ Läst</button>
+        <button class="remove-reading-btn" data-book-id="${book.documentId}">Ta bort</button>
+      </div>
     `;
-
     readingListContainer.appendChild(item);
   });
 }
 
 function removeFromReadingList(bookId) {
-  const readingList = getReadingList();
-
-  const updatedList = readingList.filter((book) => book.documentId !== bookId);
-
-  saveReadingList(updatedList);
+  const list = getReadingList().filter((b) => b.documentId !== bookId);
+  saveReadingList(list);
   renderReadingList(sortReadingList?.value || "title");
+  updateProfileStats();
+}
+
+// ===============================
+// READ BOOKS (already finished)
+// ===============================
+
+function getReadBooks() {
+  return JSON.parse(localStorage.getItem("readBooks")) || [];
+}
+
+function saveReadBooks(list) {
+  localStorage.setItem("readBooks", JSON.stringify(list));
+}
+
+function markAsRead(book) {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    alert("Du behöver logga in.");
+    window.location.href = "login.html";
+    return;
+  }
+  const readBooks = getReadBooks();
+  if (readBooks.find((b) => b.documentId === book.documentId)) return;
+
+  readBooks.push(book);
+  saveReadBooks(readBooks);
+
+  /* also remove from reading list if present */
+  const rl = getReadingList().filter((b) => b.documentId !== book.documentId);
+  saveReadingList(rl);
+
+  renderReadingList(sortReadingList?.value || "title");
+  renderReadBooks();
+  updateProfileStats();
+}
+
+function removeFromReadBooks(bookId) {
+  const list = getReadBooks().filter((b) => b.documentId !== bookId);
+  saveReadBooks(list);
+  renderReadBooks();
+  updateProfileStats();
+}
+
+function renderReadBooks() {
+  if (!readBooksContainer) return;
+
+  const readBooks = getReadBooks();
+  readBooksContainer.innerHTML = "";
+
+  if (readBooks.length === 0) {
+    readBooksContainer.innerHTML = `
+      <div class="empty-state">
+        <h2>Inga lästa böcker ännu</h2>
+        <p>Markera böcker som lästa från din läslista.</p>
+        <a href="index.html" class="btn">Utforska böcker</a>
+      </div>
+    `;
+    return;
+  }
+
+  readBooks.forEach((book) => {
+    const imageUrl = getMediaUrl(book.coverImage);
+    const item = document.createElement("article");
+    item.classList.add("reading-list-item");
+    item.innerHTML = `
+      ${imageUrl
+        ? `<img src="${imageUrl}" alt="${book.title}" />`
+        : `<div class="book-placeholder small"></div>`}
+      <div>
+        <h3>${book.title}</h3>
+        <p>${book.author}</p>
+      </div>
+      <button class="unread-btn" data-book-id="${book.documentId}" title="Flytta tillbaka till läslista">✕</button>
+    `;
+    readBooksContainer.appendChild(item);
+  });
 }
 
 // ===============================
@@ -650,9 +728,7 @@ async function renderUserRatedBooksOnProfile(sortBy = "title") {
       error.response?.data || error,
     );
 
-    ratedBooksContainer.innerHTML = `
-      <p>Kunde inte hämta dina betyg.</p>
-    `;
+    ratedBooksContainer.innerHTML = `<p>Kunde inte hämta dina betyg.</p>`;
   }
 }
 // ===============================
@@ -683,40 +759,50 @@ if (bookDetailsContainer) {
   fetchBookDetails();
 }
 
-if (readingListContainer || ratedBooksContainer) {
+if (readingListContainer || ratedBooksContainer || readBooksContainer) {
   const token = localStorage.getItem("token");
-
-  if (!token) {
-    window.location.href = "login.html";
-  }
+  if (!token) { window.location.href = "login.html"; }
 
   const username = localStorage.getItem("username");
-
-  if (profileUsername && username) {
-    profileUsername.textContent = username;
-  }
+  if (profileUsername && username) profileUsername.textContent = username;
 
   renderReadingList();
-  renderUserRatedBooksOnProfile();
+  renderReadBooks();
+  renderUserRatedBooksOnProfile().then(() => {
+    /* count rated books for banner stat */
+    const rated = document.querySelectorAll(".rated-book-item").length;
+    updateProfileStats(rated);
+  });
 
   if (sortReadingList) {
-    sortReadingList.addEventListener("change", () => {
-      renderReadingList(sortReadingList.value);
-    });
+    sortReadingList.addEventListener("change", () => renderReadingList(sortReadingList.value));
   }
-
   if (sortRatedBooks) {
-    sortRatedBooks.addEventListener("change", () => {
-      renderUserRatedBooksOnProfile(sortRatedBooks.value);
+    sortRatedBooks.addEventListener("change", () => renderUserRatedBooksOnProfile(sortRatedBooks.value));
+  }
+
+  /* Reading list actions: remove or mark as read */
+  if (readingListContainer) {
+    readingListContainer.addEventListener("click", (e) => {
+      const btn    = e.target.closest("button");
+      if (!btn) return;
+      const bookId = btn.dataset.bookId;
+
+      if (btn.classList.contains("remove-reading-btn")) {
+        removeFromReadingList(bookId);
+      } else if (btn.classList.contains("mark-read-btn")) {
+        const book = getReadingList().find((b) => b.documentId === bookId);
+        if (book) markAsRead(book);
+      }
     });
   }
 
-  if (readingListContainer) {
-    readingListContainer.addEventListener("click", (event) => {
-      if (event.target.classList.contains("remove-reading-btn")) {
-        const bookId = event.target.dataset.bookId;
-        removeFromReadingList(bookId);
-      }
+  /* Read books: move back to unread */
+  if (readBooksContainer) {
+    readBooksContainer.addEventListener("click", (e) => {
+      const btn = e.target.closest(".unread-btn");
+      if (!btn) return;
+      removeFromReadBooks(btn.dataset.bookId);
     });
   }
 }

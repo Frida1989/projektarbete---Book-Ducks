@@ -3,14 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>Min profil | StoryDucks</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="style.css?v=4" />
-
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,700;0,900;1,300&family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="style.css?v=5" />
     <script src="https://cdn.jsdelivr.net/npm/axios@1.16.0/dist/axios.min.js"></script>
     <script src="config.js"></script>
     <script src="index.js" defer></script>
@@ -35,126 +32,126 @@
 
       <div class="welcome-area">
         <span id="welcomeText"></span>
-
-        <a href="profile.html" id="profileLink" class="profile-link">
-          Min profil ✨
-        </a>
+        <a href="profile.html" id="profileLink" class="profile-link">Min profil</a>
       </div>
 
       <div class="auth-buttons">
         <a href="login.html" class="btn">Logga in</a>
         <a href="register.html" class="btn">Registrera dig</a>
       </div>
-
       <button id="logoutBtn" class="logout-btn">Logga ut</button>
     </header>
 
     <main>
       <section class="profile-section">
+
+        <!-- ── Sidebar ── -->
         <aside class="profile-sidebar">
           <div class="profile-avatar">🦆</div>
-
           <h2 id="profileUsername">Användare</h2>
-
           <nav class="profile-menu">
-            <a href="#readingPanel">Att läsa</a>
-            <a href="#ratedPanel">Betygsatta böcker</a>
+            <a href="#readingPanel">📚 Att läsa</a>
+            <a href="#readPanel">✅ Lästa böcker</a>
+            <a href="#ratedPanel">⭐ Betygsatta</a>
           </nav>
         </aside>
 
+        <!-- ── Content ── -->
         <section class="profile-content">
-          <div class="profile-header">
-            <div>
-              <h1>Min profil</h1>
-              <p>Här hittar du dina sparade och betygsatta böcker.</p>
+
+          <!-- Welcome banner -->
+          <div class="profile-welcome-banner" id="profileBanner">
+            <div class="pwb-text">
+              <h1 id="profileGreeting">Välkommen tillbaka!</h1>
+              <p id="profileWelcomeMsg">Din litterära resa fortsätter här.</p>
+            </div>
+            <div class="pwb-stats">
+              <div class="pwb-stat">
+                <span class="pwb-stat-num" id="statReadingList">0</span>
+                <span class="pwb-stat-label">Att läsa</span>
+              </div>
+              <div class="pwb-stat">
+                <span class="pwb-stat-num" id="statReadBooks">0</span>
+                <span class="pwb-stat-label">Lästa</span>
+              </div>
+              <div class="pwb-stat">
+                <span class="pwb-stat-num" id="statRated">—</span>
+                <span class="pwb-stat-label">Betygsatta</span>
+              </div>
             </div>
           </div>
 
-          <div class="profile-lists-grid">
+          <!-- Three panels -->
+          <div class="profile-lists-grid three-col">
+
+            <!-- Panel 1: Reading list -->
             <section class="profile-panel" id="readingPanel">
               <div class="panel-header">
-                <h2>Att läsa</h2>
-
+                <h2>📚 Att läsa</h2>
                 <label>
                   Sortera:
                   <select id="sortReadingList">
-                    <option value="title">Titel A-Ö</option>
-                    <option value="author">Författare A-Ö</option>
+                    <option value="title">Titel A–Ö</option>
+                    <option value="author">Författare A–Ö</option>
                   </select>
                 </label>
               </div>
-
               <div id="readingListContainer" class="reading-list"></div>
             </section>
 
+            <!-- Panel 2: Read books (new) -->
+            <section class="profile-panel" id="readPanel">
+              <div class="panel-header">
+                <h2>✅ Lästa böcker</h2>
+              </div>
+              <div id="readBooksContainer" class="reading-list"></div>
+            </section>
+
+            <!-- Panel 3: Rated books -->
             <section class="profile-panel" id="ratedPanel">
               <div class="panel-header">
-                <h2>Betygsatta böcker</h2>
-
+                <h2>⭐ Betygsatta</h2>
                 <label>
                   Sortera:
                   <select id="sortRatedBooks">
-                    <option value="title">Titel A-Ö</option>
-                    <option value="author">Författare A-Ö</option>
-                    <option value="score">Betyg högst först</option>
+                    <option value="title">Titel A–Ö</option>
+                    <option value="author">Författare A–Ö</option>
+                    <option value="score">Betyg ↓</option>
                   </select>
                 </label>
               </div>
-
               <div id="ratedBooksContainer" class="rated-books-list"></div>
             </section>
+
           </div>
         </section>
       </section>
     </main>
-              <footer class="site-footer">
-        <div class="footer-content">
-          <div class="footer-brand">
-            <h2>🦆 StoryDucks</h2>
 
-            <p>
-              Upptäck magiska böcker för små läsare — sök, spara och betygsätt
-              barnböcker i en varm och lekfull läsvärld.
-            </p>
-          </div>
-
-          <div class="footer-links">
-            <h3>Explore</h3>
-
-            <a href="index.html">Home</a>
-            <a href="profile.html">Profile</a>
-            <a href="login.html">Login</a>
-            <a href="register.html">Register</a>
-          </div>
-
-         <div class="footer-contact">
-  <h3>Connect</h3>
-
-  <a
-    href="https://frida-portfolio.com"
-    target="_blank"
-  >
-    Portfolio
-  </a>
-
-  <a
-    href="https://github.com/Frida1989"
-    target="_blank"
-  >
-    GitHub
-  </a>
-
-  <a
-    href="https://linkedin.com/in/farideh-pakdaman"
-    target="_blank"
-  >
-    LinkedIn
-  </a>
-
-  <p class="footer-credit">
-    Designed & developed by Frida ✨
-  </p>
-</div>
-      </footer>
+    <footer class="site-footer">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <h2>StoryDucks</h2>
+          <p>Upptäck magiska böcker för små läsare — sök, spara och betygsätt barnböcker i en varm och lekfull läsvärld.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Utforska</h3>
+          <a href="landing.html">Hem</a>
+          <a href="index.html">Böcker</a>
+          <a href="profile.html">Min profil</a>
+          <a href="login.html">Logga in</a>
+        </div>
+        <div class="footer-contact">
+          <h3>Connect</h3>
+          <a href="https://frida-portfolio.com" target="_blank" rel="noopener">Portfolio</a>
+          <a href="https://github.com/Frida1989" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://linkedin.com/in/farideh-pakdaman" target="_blank" rel="noopener">LinkedIn</a>
+          <p class="footer-credit">Designed &amp; developed by Frida ✨</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 StoryDucks. Alla rättigheter förbehållna.</p>
+      </div>
+    </footer>
   </body>
 </html>
