@@ -18,112 +18,112 @@
   <!-- ══ Phase 1: Logo draw (dark bg) ══ -->
   <div id="phLogo" class="phase">
     <svg id="logoMark" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="StoryDucks logotyp">
-      <!-- Book left page -->
-      <path class="lm-draw" d="M8 52 Q40 44 40 44 L40 68 Q8 68 8 68Z" stroke="#c89f5d" stroke-width="1.5" fill="none"/>
-      <!-- Book right page -->
+      <path class="lm-draw" d="M8 52 Q40 44 40 44 L40 68 Q8 68 8 68Z"  stroke="#c89f5d" stroke-width="1.5" fill="none"/>
       <path class="lm-draw" d="M72 52 Q40 44 40 44 L40 68 Q72 68 72 68Z" stroke="#c89f5d" stroke-width="1.5" fill="none"/>
-      <!-- Spine -->
-      <line class="lm-draw" x1="40" y1="44" x2="40" y2="68" stroke="#dfd2b8" stroke-width="1"/>
-      <!-- Body -->
+      <line  class="lm-draw" x1="40" y1="44" x2="40" y2="68" stroke="#dfd2b8" stroke-width="1"/>
       <ellipse class="lm-draw" cx="40" cy="38" rx="16" ry="14" stroke="#2f451f" stroke-width="2" fill="none"/>
-      <!-- Head -->
-      <circle class="lm-draw" cx="40" cy="20" r="11" stroke="#2f451f" stroke-width="2" fill="none"/>
-      <!-- Eye fill -->
-      <circle class="lm-fill" cx="36" cy="18" r="2.5" fill="#2f451f"/>
-      <circle class="lm-fill" cx="35.2" cy="17.2" r="1" fill="white"/>
-      <!-- Beak fill -->
-      <path class="lm-fill" d="M49 21 L57 18.5 L50 25Z" fill="#c89f5d"/>
-      <!-- Wing -->
-      <path class="lm-draw" d="M26 38 Q20 28 26 24 Q22 32 24 42Z" stroke="#c89f5d" stroke-width="1.5" fill="none"/>
+      <circle  class="lm-draw" cx="40" cy="20" r="11"          stroke="#2f451f" stroke-width="2" fill="none"/>
+      <circle  class="lm-fill" cx="36" cy="18" r="2.5" fill="#2f451f"/>
+      <circle  class="lm-fill" cx="35.2" cy="17.2" r="1" fill="white"/>
+      <path    class="lm-fill" d="M49 21 L57 18.5 L50 25Z" fill="#c89f5d"/>
+      <path    class="lm-draw" d="M26 38 Q20 28 26 24 Q22 32 24 42Z" stroke="#c89f5d" stroke-width="1.5" fill="none"/>
     </svg>
     <p id="logoWordmark"><span class="lw-story">Story</span><span class="lw-ducks">Ducks</span></p>
+    <p id="logoTagline">Where every child's next favourite book lives</p>
   </div>
 
   <!-- ══ Phase 2: World (cream bg) ══ -->
   <div id="phWorld" class="phase">
 
-    <!-- Ambient sparkles -->
     <div id="sparkleField" aria-hidden="true"></div>
 
-    <!-- Duck + orbit ring (ring is child → always centred on duck) -->
+    <!-- Duck + orbit ring -->
     <div id="duckCenter">
       <div id="duckGlow"></div>
       <svg id="duckSvg" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <!-- Shadow blob -->
-        <ellipse cx="40" cy="72" rx="16" ry="4" fill="rgba(47,69,31,.12)"/>
-        <!-- Body -->
+        <ellipse cx="40" cy="73" rx="18" ry="4" fill="rgba(47,69,31,.1)"/>
         <ellipse cx="40" cy="52" rx="18" ry="13" fill="#c89f5d"/>
         <ellipse cx="40" cy="49" rx="14" ry="11" fill="#2f451f"/>
-        <!-- Head -->
-        <circle cx="40" cy="28" r="13" fill="#2f451f"/>
-        <!-- Eye + highlight -->
-        <circle cx="36" cy="25" r="2.8" fill="white"/>
-        <circle cx="35.2" cy="24.3" r="1.1" fill="#1a2e10"/>
-        <!-- Beak -->
+        <circle  cx="40" cy="28" r="13" fill="#2f451f"/>
+        <circle  cx="36" cy="25" r="2.8" fill="white"/>
+        <circle  cx="35.2" cy="24.3" r="1.1" fill="#1a2e10"/>
         <path d="M51 29 L60 26 L52 34Z" fill="#c89f5d"/>
-        <!-- Wing -->
         <path d="M28 45 Q22 34 28 30 Q24 38 27 50Z" fill="#c89f5d" opacity=".9"/>
-        <!-- Open book -->
         <path d="M20 57 Q40 51 40 51 L40 65 Q20 65 20 65Z" fill="#fffdf8"/>
         <path d="M60 57 Q40 51 40 51 L40 65 Q60 65 60 65Z" fill="#f3ead8"/>
         <path d="M40 51 L40 65" stroke="#dfd2b8" stroke-width=".8"/>
         <path d="M25 59 Q32 57 38 58" stroke="#dbe8c7" stroke-width=".7" stroke-linecap="round"/>
         <path d="M25 62 Q32 60 38 61" stroke="#dbe8c7" stroke-width=".7" stroke-linecap="round"/>
       </svg>
-
-      <!-- Orbit ring (centred on duck via absolute + top/left 50%) -->
       <div id="orbitRing" aria-hidden="true">
-        <div class="orb-book" data-emoji="🐰" style="--hue:120"></div>
-        <div class="orb-book" data-emoji="🦁" style="--hue:45"></div>
-        <div class="orb-book" data-emoji="🌙" style="--hue:240"></div>
-        <div class="orb-book" data-emoji="🧙" style="--hue:160"></div>
-        <div class="orb-book" data-emoji="🐻" style="--hue:30"></div>
-        <div class="orb-book" data-emoji="🦊" style="--hue:0"></div>
+        <div class="orb-book" data-emoji="📖" style="--hue:160"></div>
+        <div class="orb-book" data-emoji="🌟" style="--hue:45"></div>
+        <div class="orb-book" data-emoji="🎨" style="--hue:200"></div>
+        <div class="orb-book" data-emoji="🌿" style="--hue:120"></div>
+        <div class="orb-book" data-emoji="✨" style="--hue:30"></div>
+        <div class="orb-book" data-emoji="🦋" style="--hue:270"></div>
+      </div>
+    </div>
+
+    <!-- Feature cards (4 corners, slide in after orbit) -->
+    <div class="feat-card feat-tl" aria-hidden="true">
+      <div class="feat-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </div>
+      <div class="feat-body">
+        <span class="feat-label">Utforska</span>
+        <span class="feat-desc">Tusentals barnböcker</span>
+      </div>
+    </div>
+
+    <div class="feat-card feat-tr" aria-hidden="true">
+      <div class="feat-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </div>
+      <div class="feat-body">
+        <span class="feat-label">Spara</span>
+        <span class="feat-desc">Din läslista</span>
+      </div>
+    </div>
+
+    <div class="feat-card feat-bl" aria-hidden="true">
+      <div class="feat-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <div class="feat-body">
+        <span class="feat-label">Betygsätt</span>
+        <span class="feat-desc">Dela din åsikt</span>
+      </div>
+    </div>
+
+    <div class="feat-card feat-br" aria-hidden="true">
+      <div class="feat-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div class="feat-body">
+        <span class="feat-label">Profil</span>
+        <span class="feat-desc">Ditt läsuniversum</span>
       </div>
     </div>
 
     <!-- Title + tagline -->
     <div id="worldText">
       <h1 id="mainTitle"><span class="mt-s">Story</span><span class="mt-d">Ducks</span></h1>
-      <p id="mainTagline">Upptäck magiska böcker för små läsare</p>
+      <p id="mainTagline">Barnböcker för föräldrar som bryr sig om läsandet</p>
     </div>
 
-    <!-- CTA wrapper (hand is a child so it's positioned relative to button) -->
+    <!-- CTA -->
     <div id="ctaWrap">
       <button id="ctaBtn" onclick="enterSite()">
         <span>Utforska böcker</span>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
-        </svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </button>
       <div id="ctaPulse"></div>
-      <!-- Child hand: taps the CTA -->
-      <div id="handWrap" aria-hidden="true">
-        <svg id="handSvg" viewBox="0 0 70 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Index finger (pointing) -->
-          <rect x="28" y="2"  width="14" height="48" rx="7"   fill="#f9c5a0"/>
-          <!-- Middle finger -->
-          <rect x="44" y="16" width="13" height="40" rx="6.5" fill="#f9c5a0"/>
-          <!-- Ring finger -->
-          <rect x="57" y="22" width="12" height="36" rx="6"   fill="#f9c5a0"/>
-          <!-- Pinky -->
-          <rect x="10" y="24" width="16" height="34" rx="8"   fill="#f9c5a0"/>
-          <!-- Thumb -->
-          <path d="M8 44 Q1 44 1 53 L1 68 Q1 75 10 75" stroke="#f9c5a0" stroke-width="14" stroke-linecap="round" fill="none"/>
-          <!-- Palm -->
-          <rect x="8" y="46" width="61" height="32" rx="14" fill="#f9c5a0"/>
-          <!-- Knuckle lines -->
-          <path d="M28 50 Q35 48 42 50" stroke="#f0ab80" stroke-width="1.2" stroke-linecap="round"/>
-          <path d="M44 50 Q50 48 56 50" stroke="#f0ab80" stroke-width="1.2" stroke-linecap="round"/>
-        </svg>
-        <div id="tapRipple"></div>
-      </div>
     </div>
 
   </div>
 </div>
 
-<!-- White flash for exit transition -->
 <div id="transOverlay"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
