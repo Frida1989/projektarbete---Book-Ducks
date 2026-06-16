@@ -1,32 +1,28 @@
-/* =====================================================
-   StoryDucks — Global Styles
-   Palette: deep forest green ↔ sage ↔ warm cream
-===================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
 
+/* colors and layout variables */
 :root {
-  /* ── Core palette ─────────────────────────────── */
-  --forest:    #1e3312;   /* deepest green (navbar) */
-  --forest-mid:#2f451f;   /* dark green (headings, buttons) */
-  --sage-dark: #4a6635;   /* medium bridge green */
-  --sage:      #7a9c60;   /* lighter sage accent */
-  --sage-bg:   #dce8c8;   /* pale sage (panels, headers) */
-  --sage-soft: #eaf2db;   /* very pale sage (body mid) */
+  --forest:    #1e3312;
+  --forest-mid:#2f451f;
+  --sage-dark: #4a6635;
+  --sage:      #7a9c60;
+  --sage-bg:   #dce8c8;
+  --sage-soft: #eaf2db;
 
-  --cream:     #fbf7ef;   /* warm cream (card bg) */
-  --cream-card:#fffdf8;   /* near-white cards */
-  --cream-soft:#f3ead8;   /* warm tinted bg */
+  --cream:     #fbf7ef;
+  --cream-card:#fffdf8;
+  --cream-soft:#f3ead8;
 
-  --gold:      #c89f5d;   /* accent gold */
-  --gold-soft: #f1dfbd;   /* pale gold */
-  --gold-dark: #9b6f32;   /* darker gold for text */
+  --gold:      #c89f5d;
+  --gold-soft: #f1dfbd;
+  --gold-dark: #9b6f32;
 
-  --text:      #1e2c16;   /* near-black green */
-  --text-mid:  #3a4f2c;   /* body text */
-  --text-muted:#6b7c52;   /* muted labels */
-  --border:    #cddcb0;   /* sage-tinted border */
+  --text:      #1e2c16;
+  --text-mid:  #3a4f2c;
+  --text-muted:#6b7c52;
+  --border:    #cddcb0;
   --border-soft:#e0ead0;
 
-  /* ── Legacy aliases (keeps JS working) ────────── */
   --bg-main:        var(--cream);
   --bg-card:        var(--cream-card);
   --bg-soft:        var(--cream-soft);
@@ -44,14 +40,12 @@
   --max-width:      1180px;
 }
 
-/* =====================================================
-   RESET / BASE
-===================================================== */
+/* reset */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   min-height: 100vh;
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: 'Nunito', system-ui, sans-serif;
   color: var(--text);
 
   /* Gradient: dark-sage top (under navbar) → pale sage → cream */
@@ -96,9 +90,7 @@ textarea:focus-visible {
   }
 }
 
-/* =====================================================
-   SHARED BUTTONS
-===================================================== */
+/* buttons */
 .btn, button {
   border: none;
   border-radius: 999px;
@@ -119,9 +111,7 @@ button[type="submit"], .btn-primary {
   box-shadow: 0 8px 18px rgba(47,70,30,.28);
 }
 
-/* =====================================================
-   NAVBAR — dark forest, seamless with page gradient
-===================================================== */
+/* navbar */
 .navbar {
   width: min(var(--max-width), calc(100% - 32px));
   margin: 20px auto 0;
@@ -145,7 +135,7 @@ button[type="submit"], .btn-primary {
     inset 0 1px 0 rgba(255,255,255,.05);
 }
 
-/* ── Logo ── */
+/* logo */
 .logo {
   display: flex; align-items: center; gap: 9px;
   white-space: nowrap; cursor: pointer;
@@ -166,7 +156,7 @@ button[type="submit"], .btn-primary {
 .logo-story { color: rgba(255,253,248,.92); }
 .logo-ducks { color: var(--gold); }
 
-/* ── Nav buttons (on dark bg) ── */
+/* nav buttons */
 .auth-buttons { display: flex; align-items: center; gap: 10px; }
 
 .auth-buttons .btn:first-child {
@@ -188,7 +178,7 @@ button[type="submit"], .btn-primary {
   background: #d4ad6b;
 }
 
-/* ── Welcome / profile (logged-in state) ── */
+/* logged in state */
 .welcome-area {
   flex: 1;
   display: flex; justify-content: center; align-items: center; gap: 14px;
@@ -224,9 +214,7 @@ button[type="submit"], .btn-primary {
   border-color: rgba(255,70,70,.28);
 }
 
-/* =====================================================
-   SEARCH
-===================================================== */
+/* search */
 .search-section {
   margin-bottom: 32px;
   display: flex; justify-content: center;
@@ -246,9 +234,7 @@ button[type="submit"], .btn-primary {
   box-shadow: 0 0 0 4px rgba(74,102,53,.15), var(--shadow-card);
 }
 
-/* =====================================================
-   BOOKS SECTION
-===================================================== */
+/* books grid */
 .books-section {
   padding: 32px;
   background: rgba(255,253,248,.78);
@@ -262,17 +248,10 @@ button[type="submit"], .btn-primary {
 .books-section h1 {
   margin-bottom: 26px;
   color: var(--forest-mid);
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'Nunito', sans-serif;
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 900;
   letter-spacing: -1.5px;
-}
-.books-section h1::after {
-  content: " ✦";
-  color: var(--gold);
-  font-family: sans-serif;
-  font-size: .6em;
-  vertical-align: middle;
 }
 
 .books-grid {
@@ -282,7 +261,7 @@ button[type="submit"], .btn-primary {
   align-items: start;
 }
 
-/* ── Book card ── */
+/* book card */
 .book-card {
   width: 100%; max-width: 240px;
   margin: 0 auto; padding: 18px;
@@ -304,7 +283,7 @@ button[type="submit"], .btn-primary {
 .book-card h3 {
   margin-bottom: 8px;
   color: var(--forest-mid);
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 1rem; line-height: 1.35;
 }
 .book-card p { color: var(--text-muted); font-size: .88rem; line-height: 1.6; }
@@ -323,9 +302,7 @@ button[type="submit"], .btn-primary {
     linear-gradient(135deg, var(--sage-soft), var(--cream-soft));
 }
 
-/* =====================================================
-   AUTH PAGES
-===================================================== */
+/* login / register */
 .auth-section {
   min-height: 100vh;
   display: flex; justify-content: center; align-items: center;
@@ -342,7 +319,7 @@ button[type="submit"], .btn-primary {
 .auth-form h1 {
   margin-bottom: 24px;
   color: var(--forest-mid);
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 2rem; letter-spacing: -1px; text-align: center;
 }
 .auth-form label {
@@ -363,9 +340,7 @@ button[type="submit"], .btn-primary {
 .auth-links { margin-top: 20px; color: var(--text-muted); text-align: center; font-size: .95rem; }
 .auth-links a { color: var(--forest-mid); font-weight: 700; }
 
-/* =====================================================
-   DETAILS PAGE
-===================================================== */
+/* book details */
 .details-section { padding: 18px 0 48px; }
 
 .back-link {
@@ -409,7 +384,7 @@ button[type="submit"], .btn-primary {
 .details-info h1 {
   max-width: 520px; margin-bottom: 14px;
   color: var(--forest-mid);
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'Nunito', sans-serif;
   font-size: clamp(2rem, 3vw, 3.2rem);
   line-height: 1.05; letter-spacing: -2px;
   overflow-wrap: break-word; hyphens: auto;
@@ -457,7 +432,7 @@ button[type="submit"], .btn-primary {
   border-radius: 20px;
   box-shadow: 0 12px 28px rgba(30,51,18,.09);
 }
-.action-panel h3 { margin-bottom: 12px; color: var(--forest-mid); font-size: 1rem; font-family: 'Fraunces', serif; }
+.action-panel h3 { margin-bottom: 12px; color: var(--forest-mid); font-size: 1rem; font-family: 'Nunito', sans-serif; }
 
 .reading-list-btn {
   width: 100%;
@@ -468,18 +443,14 @@ button[type="submit"], .btn-primary {
   font-size: .9rem; font-weight: 800;
   box-shadow: 0 10px 22px rgba(47,70,30,.26);
 }
-.reading-list-btn::after { content: "♡"; font-size: 1rem; }
 .reading-list-btn.saved { background: linear-gradient(135deg, var(--gold), #8a6730); }
-.reading-list-btn.saved::after { content: "✓"; }
 
-.rating-stars { display: grid; grid-template-columns: repeat(5,1fr); gap: 6px; margin-top: 10px; }
-.rating-stars button { padding: 0; background: transparent; box-shadow: none; color: #b0a880; font-size: 1.1rem; }
+.rating-stars { display: grid; grid-template-columns: repeat(10,1fr); gap: 3px; margin-top: 10px; }
+.rating-stars button { padding: 0; background: transparent; box-shadow: none; color: #b0a880; font-size: .95rem; min-width: 0; }
 .rating-stars button:hover { transform: scale(1.2); color: #c8911a; }
-.rating-numbers { display: grid; grid-template-columns: repeat(10,1fr); margin-top: 6px; color: var(--text-muted); font-size: .65rem; text-align: center; }
+.rating-numbers { display: grid; grid-template-columns: repeat(10,1fr); margin-top: 4px; color: var(--text-muted); font-size: .6rem; text-align: center; }
 
-/* =====================================================
-   PROFILE PAGE
-===================================================== */
+/* profile page */
 .profile-section {
   display: grid; grid-template-columns: 220px 1fr;
   gap: 28px; min-height: 640px; padding: 28px;
@@ -496,11 +467,16 @@ button[type="submit"], .btn-primary {
   display: grid; place-items: center;
   margin-bottom: 14px;
   background: var(--sage-bg);
+  border: 2px solid var(--border);
   border-radius: 50%;
+  font-family: 'Nunito', sans-serif;
   font-size: 2rem;
+  font-weight: 900;
+  color: var(--forest-mid);
+  text-transform: uppercase;
 }
 
-.profile-sidebar h2 { margin-bottom: 24px; color: var(--forest-mid); font-family: 'Fraunces', serif; }
+.profile-sidebar h2 { margin-bottom: 24px; color: var(--forest-mid); font-family: 'Nunito', sans-serif; }
 
 .profile-menu { display: flex; flex-direction: column; gap: 12px; }
 .profile-menu a { padding: 10px 12px; border-radius: 999px; color: var(--text-muted); font-weight: 700; }
@@ -510,12 +486,12 @@ button[type="submit"], .btn-primary {
 .profile-header { margin-bottom: 26px; }
 .profile-header h1 {
   color: var(--forest-mid);
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 2.2rem; letter-spacing: -1.5px;
 }
 .profile-header p { margin-top: 6px; color: var(--text-muted); }
 
-/* ── Profile welcome banner ── */
+/* welcome banner */
 .profile-welcome-banner {
   display: flex;
   align-items: center;
@@ -529,7 +505,7 @@ button[type="submit"], .btn-primary {
   flex-wrap: wrap;
 }
 .pwb-text h1 {
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'Nunito', sans-serif;
   font-size: clamp(1.4rem, 3vw, 2rem);
   font-weight: 900;
   color: rgba(255,253,248,.96);
@@ -538,10 +514,9 @@ button[type="submit"], .btn-primary {
   margin-bottom: 6px;
 }
 .pwb-text p {
-  color: rgba(255,253,248,.58);
+  color: rgba(255,253,248,.65);
   font-size: .95rem;
   line-height: 1.5;
-  font-style: italic;
 }
 .pwb-stats {
   display: flex;
@@ -556,7 +531,7 @@ button[type="submit"], .btn-primary {
   min-width: 56px;
 }
 .pwb-stat-num {
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 2rem;
   font-weight: 900;
   color: var(--gold);
@@ -571,7 +546,7 @@ button[type="submit"], .btn-primary {
   text-align: center;
 }
 
-/* ── Three-column profile grid ── */
+/* three column layout */
 .profile-lists-grid {
   display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 24px;
 }
@@ -586,10 +561,10 @@ button[type="submit"], .btn-primary {
   box-shadow: var(--shadow-card);
 }
 
-.panel-header { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 18px; }
-.panel-header h2 { color: var(--forest-mid); font-size: 1.3rem; font-family: 'Fraunces', serif; }
-.panel-header label { display: flex; align-items: center; gap: 8px; color: var(--text-muted); font-size: .85rem; font-weight: 700; }
-.panel-header select { padding: 8px 12px; background: #fff; border: 1.5px solid var(--border); border-radius: 999px; color: var(--forest-mid); font-weight: 700; }
+.panel-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 18px; }
+.panel-header h2 { color: var(--forest-mid); font-size: 1.1rem; font-family: 'Nunito', sans-serif; flex: 1; min-width: 80px; }
+.panel-header label { display: flex; align-items: center; gap: 6px; color: var(--text-muted); font-size: .82rem; font-weight: 700; white-space: nowrap; }
+.panel-header select { padding: 6px 10px; background: #fff; border: 1.5px solid var(--border); border-radius: 999px; color: var(--forest-mid); font-weight: 700; font-size: .82rem; max-width: 130px; }
 
 .reading-list, .rated-books-list, #ratedBooksContainer {
   display: flex; flex-direction: column; gap: 14px;
@@ -608,7 +583,7 @@ button[type="submit"], .btn-primary {
 }
 .reading-list-item h3, .rated-book-info h3 {
   margin-bottom: 4px; color: var(--forest-mid);
-  font-size: .95rem; line-height: 1.25; font-family: 'Fraunces', serif;
+  font-size: .95rem; line-height: 1.25; font-family: 'Nunito', sans-serif;
 }
 .reading-list-item p, .rated-book-info p { color: var(--text-muted); font-size: .85rem; }
 .rated-score { white-space: nowrap; color: var(--forest-mid); font-weight: 900; }
@@ -647,12 +622,10 @@ button[type="submit"], .btn-primary {
   border: 1.5px dashed var(--border);
   border-radius: 20px;
 }
-.empty-state h2 { margin-bottom: 10px; color: var(--forest-mid); font-family: 'Fraunces', serif; }
+.empty-state h2 { margin-bottom: 10px; color: var(--forest-mid); font-family: 'Nunito', sans-serif; }
 .empty-state p  { margin-bottom: 20px; color: var(--text-muted); }
 
-/* =====================================================
-   FOOTER
-===================================================== */
+/* footer */
 .site-footer {
   margin-top: clamp(4rem, 8vw, 6rem);
   padding: 3rem 1.5rem 1.5rem;
@@ -672,7 +645,7 @@ button[type="submit"], .btn-primary {
 
 .footer-brand h2 {
   margin-bottom: .8rem;
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'Nunito', sans-serif;
   font-size: clamp(1.6rem, 3vw, 2.1rem);
   letter-spacing: -.8px;
   color: rgba(255,253,248,.92);
@@ -722,9 +695,7 @@ button[type="submit"], .btn-primary {
 }
 .footer-bottom p { font-size: .95rem; color: rgba(255,253,248,.35); }
 
-/* =====================================================
-   RESPONSIVE
-===================================================== */
+/* responsive */
 @media (max-width: 1200px) {
   .profile-lists-grid.three-col { grid-template-columns: repeat(2, minmax(0,1fr)); }
 }
@@ -779,9 +750,7 @@ button[type="submit"], .btn-primary {
   .footer-links a, .social-links a { min-height: 44px; }
 }
 
-/* =====================================================
-   DARK THEME
-===================================================== */
+/* dark theme */
 body.theme-dark {
   --bg-main: #0b1020; --bg-card: #111827; --bg-soft: #182235;
   --primary: #60a5fa; --primary-dark: #f8fafc; --primary-light: #1e293b;

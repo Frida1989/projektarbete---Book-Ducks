@@ -6,7 +6,7 @@
     <title>Min profil | StoryDucks</title>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,700;0,900;1,300&family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="style.css?v=5" />
     <script src="https://cdn.jsdelivr.net/npm/axios@1.16.0/dist/axios.min.js"></script>
     <script src="config.js"></script>
@@ -47,12 +47,12 @@
 
         <!-- ── Sidebar ── -->
         <aside class="profile-sidebar">
-          <div class="profile-avatar">🦆</div>
+          <div class="profile-avatar" id="profileAvatar"></div>
           <h2 id="profileUsername">Användare</h2>
           <nav class="profile-menu">
-            <a href="#readingPanel">📚 Att läsa</a>
-            <a href="#readPanel">✅ Lästa böcker</a>
-            <a href="#ratedPanel">⭐ Betygsatta</a>
+            <a href="#readingPanel">Att läsa</a>
+            <a href="#readPanel">Lästa böcker</a>
+            <a href="#ratedPanel">Betygsatta</a>
           </nav>
         </aside>
 
@@ -62,8 +62,8 @@
           <!-- Welcome banner -->
           <div class="profile-welcome-banner" id="profileBanner">
             <div class="pwb-text">
-              <h1 id="profileGreeting">Välkommen tillbaka!</h1>
-              <p id="profileWelcomeMsg">Din litterära resa fortsätter här.</p>
+              <h1 id="profileGreeting">Välkommen!</h1>
+              <p id="profileWelcomeMsg">Kul att du är tillbaka.</p>
             </div>
             <div class="pwb-stats">
               <div class="pwb-stat">
@@ -87,7 +87,7 @@
             <!-- Panel 1: Reading list -->
             <section class="profile-panel" id="readingPanel">
               <div class="panel-header">
-                <h2>📚 Att läsa</h2>
+                <h2>Att läsa</h2>
                 <label>
                   Sortera:
                   <select id="sortReadingList">
@@ -102,7 +102,7 @@
             <!-- Panel 2: Read books (new) -->
             <section class="profile-panel" id="readPanel">
               <div class="panel-header">
-                <h2>✅ Lästa böcker</h2>
+                <h2>Lästa böcker</h2>
               </div>
               <div id="readBooksContainer" class="reading-list"></div>
             </section>
@@ -110,7 +110,7 @@
             <!-- Panel 3: Rated books -->
             <section class="profile-panel" id="ratedPanel">
               <div class="panel-header">
-                <h2>⭐ Betygsatta</h2>
+                <h2>Betygsatta</h2>
                 <label>
                   Sortera:
                   <select id="sortRatedBooks">
@@ -132,7 +132,7 @@
       <div class="footer-content">
         <div class="footer-brand">
           <h2>StoryDucks</h2>
-          <p>Upptäck magiska böcker för små läsare — sök, spara och betygsätt barnböcker i en varm och lekfull läsvärld.</p>
+          <p>Hitta barnböcker att läsa med barnen. Spara favoriter och sätt betyg.</p>
         </div>
         <div class="footer-links">
           <h3>Utforska</h3>
@@ -146,7 +146,7 @@
           <a href="https://frida-portfolio.com" target="_blank" rel="noopener">Portfolio</a>
           <a href="https://github.com/Frida1989" target="_blank" rel="noopener">GitHub</a>
           <a href="https://linkedin.com/in/farideh-pakdaman" target="_blank" rel="noopener">LinkedIn</a>
-          <p class="footer-credit">Designed &amp; developed by Frida ✨</p>
+          <p class="footer-credit">Designed &amp; developed by Frida</p>
         </div>
       </div>
       <div class="footer-bottom">

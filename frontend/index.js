@@ -1,6 +1,4 @@
-// ===============================
-// GLOBALS / DOM
-// ===============================
+// globals and DOM elements
 
 const STRAPI_URL = (
   window.BOOK_DUCKS_CONFIG?.STRAPI_URL || "http://localhost:1337"
@@ -38,9 +36,7 @@ const authButtons = document.querySelector(".auth-buttons");
 
 let books = [];
 
-// ===============================
-// BOOK LIST
-// ===============================
+// book list
 
 async function fetchBooks() {
   try {
@@ -108,9 +104,7 @@ function searchBooks(event) {
   renderBooks(filteredBooks);
 }
 
-// ===============================
-// BOOK DETAILS
-// ===============================
+// book details page
 
 async function fetchBookDetails() {
   if (!bookDetailsContainer) return;
@@ -237,9 +231,7 @@ function renderBookDetails(book) {
   updateAverageRating(book.documentId);
 }
 
-// ===============================
-// AUTH
-// ===============================
+// auth
 
 async function register(event) {
   event.preventDefault();
@@ -292,9 +284,7 @@ function logout() {
   localStorage.removeItem("username");
   window.location.href = "index.html";
 }
-// ===============================
-// THEMES
-// ===============================
+// theme
 
 async function fetchTheme() {
   try {
@@ -329,22 +319,24 @@ function updateAuthUI() {
     if (logoutBtn)   logoutBtn.style.display   = "inline-flex";
     if (authButtons) authButtons.style.display = "none";
 
-    /* Profile page: personalized welcome banner */
+    /* profile page welcome */
     const greeting    = document.getElementById("profileGreeting");
     const welcomeMsg  = document.getElementById("profileWelcomeMsg");
+    const profileAvatar = document.getElementById("profileAvatar");
+    if (profileAvatar) profileAvatar.textContent = username.charAt(0).toUpperCase();
     if (greeting && welcomeMsg) {
       const hour = new Date().getHours();
       const timeGreet = hour < 12 ? "God morgon" : hour < 17 ? "God eftermiddag" : "God kväll";
 
       const msgs = [
-        `Kul att du är tillbaka! Se vad som väntar på din läslista.`,
-        `Din litterära resa fortsätter — vad ska du läsa härnäst?`,
-        `Välkommen tillbaka! Dags att utforska nya bokäventyr.`,
-        `Härligt att se dig igen! Kolla dina betyg och sparade böcker.`,
+        "Kul att du är tillbaka!",
+        "Vad ska du läsa härnäst?",
+        "Kolla dina sparade böcker.",
+        "Hoppas du hittar något bra att läsa!",
       ];
       const randomMsg = msgs[Math.floor(Math.random() * msgs.length)];
 
-      greeting.textContent   = `${timeGreet}, ${username}! 👋`;
+      greeting.textContent   = `${timeGreet}, ${username}!`;
       welcomeMsg.textContent = randomMsg;
     }
   } else {
@@ -355,7 +347,6 @@ function updateAuthUI() {
   }
 }
 
-/* Update stat counters on profile banner */
 function updateProfileStats(ratedCount) {
   const rl = document.getElementById("statReadingList");
   const rb = document.getElementById("statReadBooks");
@@ -377,9 +368,7 @@ async function getCurrentUser() {
   return response.data;
 }
 
-// ===============================
-// READING LIST
-// ===============================
+// reading list
 
 function getReadingList() {
   return JSON.parse(localStorage.getItem("readingList")) || [];
@@ -473,9 +462,7 @@ function removeFromReadingList(bookId) {
   updateProfileStats();
 }
 
-// ===============================
-// READ BOOKS (already finished)
-// ===============================
+// books already read
 
 function getReadBooks() {
   return JSON.parse(localStorage.getItem("readBooks")) || [];
@@ -498,7 +485,6 @@ function markAsRead(book) {
   readBooks.push(book);
   saveReadBooks(readBooks);
 
-  /* also remove from reading list if present */
   const rl = getReadingList().filter((b) => b.documentId !== book.documentId);
   saveReadingList(rl);
 
@@ -549,8 +535,7 @@ function renderReadBooks() {
   });
 }
 
-// ===============================
-// RATINGS
+// ratings
 
 async function fetchRatingsForBook(bookId) {
   const token = localStorage.getItem("token");
@@ -606,9 +591,6 @@ async function submitRating(book, score) {
   try {
     const user = await getCurrentUser();
 
-    console.log("BOOK:", book);
-    console.log("USER:", user);
-
     await axios.post(
       `${API_URL}/ratings`,
       {
@@ -660,10 +642,7 @@ async function renderUserRatedBooksOnProfile(sortBy = "title") {
       },
     });
 
-    console.log("MY RATINGS:", response.data.data);
-
     let ratings = response.data.data;
-    // SORTERING
     ratings.sort((a, b) => {
       const bookA = a.book;
       const bookB = b.book;
@@ -680,7 +659,6 @@ async function renderUserRatedBooksOnProfile(sortBy = "title") {
 
     ratedBooksContainer.innerHTML = "";
 
-    // TOM LISTA
     if (ratings.length === 0) {
       ratedBooksContainer.innerHTML = `
         <div class="empty-state">
@@ -691,7 +669,6 @@ async function renderUserRatedBooksOnProfile(sortBy = "title") {
       return;
     }
 
-    // LOOPA RATINGS
     ratings.forEach((rating) => {
       const book = rating.book;
 
@@ -731,9 +708,7 @@ async function renderUserRatedBooksOnProfile(sortBy = "title") {
     ratedBooksContainer.innerHTML = `<p>Kunde inte hämta dina betyg.</p>`;
   }
 }
-// ===============================
-// INIT
-// ===============================
+// init
 
 if (registerForm) {
   registerForm.addEventListener("submit", register);
@@ -781,7 +756,6 @@ if (readingListContainer || ratedBooksContainer || readBooksContainer) {
     sortRatedBooks.addEventListener("change", () => renderUserRatedBooksOnProfile(sortRatedBooks.value));
   }
 
-  /* Reading list actions: remove or mark as read */
   if (readingListContainer) {
     readingListContainer.addEventListener("click", (e) => {
       const btn    = e.target.closest("button");
@@ -797,7 +771,6 @@ if (readingListContainer || ratedBooksContainer || readBooksContainer) {
     });
   }
 
-  /* Read books: move back to unread */
   if (readBooksContainer) {
     readBooksContainer.addEventListener("click", (e) => {
       const btn = e.target.closest(".unread-btn");
