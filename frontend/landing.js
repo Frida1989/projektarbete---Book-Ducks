@@ -1,249 +1,223 @@
-// ==========================================================
-// StoryDucks — Cinematic Landing Page
-// Pinned scroll hero: elements orbit the duck on scroll
-// ==========================================================
+/* ==========================================================
+   StoryDucks — Cinematic Auto-Play Landing
+   Sequence:
+     0.0s  Skip btn fades in
+     0.2s  Phase 1: dark bg, SVG logo draws itself
+     2.0s  Wordmark slides in
+     3.2s  Phase 2: cream bloom, duck drops in
+     4.0s  Books orbit in one-by-one
+     5.8s  Title + tagline reveal
+     6.8s  CTA pulses in
+     7.5s  Hand slides in
+     8.4s  Hand taps CTA (ripple + press)
+     9.2s  White flash → redirect index.html
+========================================================== */
 (function () {
   "use strict";
 
+  /* ── Helpers ─────────────────────────────────────────── */
+  const $ = id => document.getElementById(id);
   const reduced = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
 
-  // ── Scroll progress ──────────────────────────────────────
-  const bar = document.getElementById("scrollProgress");
-  const updateBar = () => {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    if (bar && max > 0) bar.style.width = (window.scrollY / max * 100) + "%";
-  };
-  window.addEventListener("scroll", updateBar, { passive: true });
+  const ORBIT_R = Math.min(window.innerWidth, window.innerHeight) * 0.29;
+  const BOOKS   = Array.from(document.querySelectorAll(".orb-book"));
+  const N       = BOOKS.length; // 6
 
-  // ── Nav ─────────────────────────────────────────────────
-  const nav = document.getElementById("lNav");
-  window.addEventListener("scroll", () =>
-    nav && nav.classList.toggle("is-scrolled", window.scrollY > 60), { passive: true });
-
-  // ── Burger ──────────────────────────────────────────────
-  const burger = document.getElementById("navBurger");
-  const drawer = document.getElementById("navDrawer");
-  if (burger && drawer) {
-    burger.addEventListener("click", () => {
-      const open = burger.classList.toggle("is-open");
-      drawer.classList.toggle("is-open", open);
-      burger.setAttribute("aria-expanded", String(open));
-      document.body.style.overflow = open ? "hidden" : "";
+  /* ── Position books in a circle ─────────────────────── */
+  function positionBooks() {
+    const r = Math.min(window.innerWidth, window.innerHeight) * 0.29;
+    BOOKS.forEach((book, i) => {
+      const angle = (i / N) * 360;
+      const rad   = (angle - 90) * (Math.PI / 180);
+      const x     = Math.cos(rad) * r;
+      const y     = Math.sin(rad) * r;
+      // place relative to #orbitRing which is centred at duck
+      gsap.set(book, {
+        x: x - book.offsetWidth  / 2,
+        y: y - book.offsetHeight / 2,
+        rotation: 0,
+      });
+      book.innerHTML = `<span style="position:relative;z-index:1">${book.dataset.emoji}</span>`;
     });
-    drawer.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
-      burger.classList.remove("is-open");
-      drawer.classList.remove("is-open");
-      document.body.style.overflow = "";
-    }));
   }
 
-  // ── Reduced motion fallback ──────────────────────────────
+  /* ── Sparkles ────────────────────────────────────────── */
+  function buildSparkles() {
+    const field = $("sparkleField");
+    if (!field) return;
+    for (let i = 0; i < 28; i++) {
+      const s = document.createElement("div");
+      s.className = "sparkle";
+      s.style.cssText = `
+        left:${Math.random() * 100}%;
+        top:${Math.random() * 100}%;
+        --d:${2.5 + Math.random() * 3}s;
+        --dl:${Math.random() * 3}s;
+      `;
+      field.appendChild(s);
+    }
+  }
+
+  /* ── Skip / Enter ────────────────────────────────────── */
+  function enterSite() {
+    if (entering) return;
+    entering = true;
+    gsap.to($("transOverlay"), {
+      opacity: 1, duration: 0.5, ease: "power2.in",
+      onComplete: () => { window.location.href = "index.html"; },
+    });
+  }
+  let entering = false;
+  window.enterSite = enterSite;          // expose for inline onclick
+
+  $("skipBtn").addEventListener("click", enterSite);
+
+  /* ── Reduced-motion fast path ────────────────────────── */
   if (reduced) {
-    document.querySelectorAll("[data-anim]").forEach(el => {
-      el.style.opacity = "1"; el.style.transform = "none";
-    });
-    document.querySelectorAll(".hero-h1,.hero-tagline,.hero-sub,.hero-cta").forEach(el => {
-      el.style.opacity = "1"; el.style.transform = "none";
-    });
-    document.querySelectorAll(".orb-el").forEach(el => el.style.opacity = ".6");
-    document.querySelector(".hero-scroll-cue") && (document.querySelector(".hero-scroll-cue").style.opacity = "1");
+    gsap.set([$("phWorld")], { opacity: 1, pointerEvents: "auto" });
+    gsap.set([$("duckCenter"), $("mainTitle"), $("mainTagline"), $("ctaBtn")],
+      { opacity: 1, y: 0, scale: 1 });
+    BOOKS.forEach(b => gsap.set(b, { opacity: 1, scale: 1 }));
     return;
   }
 
-  if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") {
-    document.querySelectorAll("[data-anim],.hero-h1,.hero-tagline,.hero-sub,.hero-cta").forEach(el => {
-      el.style.opacity = "1"; el.style.transform = "none";
-    });
+  /* ── Wait for GSAP ───────────────────────────────────── */
+  if (typeof gsap === "undefined") {
+    console.warn("GSAP not loaded");
+    enterSite();
     return;
   }
 
-  gsap.registerPlugin(ScrollTrigger);
+  buildSparkles();
+  positionBooks();
 
-  // ══════════════════════════════════════════════════════════
-  // HERO — Pinned scroll animation
-  // Total scroll space = 4 × viewport height
-  // ══════════════════════════════════════════════════════════
+  /* ── SVG draw path lengths ───────────────────────────── */
+  document.querySelectorAll(".lm-draw").forEach(el => {
+    const len = el.getTotalLength ? el.getTotalLength() : 500;
+    gsap.set(el, { strokeDasharray: len, strokeDashoffset: len });
+  });
 
-  const SCROLL_SPACE = window.innerHeight * 4;
-  const pinWrap = document.getElementById("heroPinWrap");
-  if (pinWrap) pinWrap.style.height = SCROLL_SPACE + "px";
+  /* ════════════════════════════════════════════════════════
+     MASTER TIMELINE
+  ════════════════════════════════════════════════════════ */
+  const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-  // Orbit positions (x%, y%) relative to viewport center
-  // Each element starts FAR off-screen and lands in its orbit slot
-  const orbitSlots = [
-    // [targetX, targetY, startX, startY] (vw / vh offsets from center)
-    { id:"ob1", tx:-38, ty:-30, sx:-120, sy:-80  },  // book TL
-    { id:"ob2", tx: 38, ty:-32, sx: 120, sy:-80  },  // book TR
-    { id:"ob3", tx:-42, ty: 10, sx:-130, sy:  0  },  // book ML
-    { id:"ob4", tx: 42, ty: 12, sx: 130, sy:  0  },  // book MR
-    { id:"ob5", tx:-30, ty: 34, sx:-100, sy: 100 },  // book BL
-    { id:"ob6", tx: 30, ty: 36, sx: 100, sy: 100 },  // book BR
-    { id:"os1", tx:  0, ty:-44, sx:   0, sy:-130 },  // star top
-    { id:"os2", tx:-18, ty:-20, sx: -80, sy: -80 },  // star TL inner
-    { id:"os3", tx: 18, ty:-22, sx:  80, sy: -80 },  // star TR inner
-    { id:"os4", tx:  0, ty: 44, sx:   0, sy: 130 },  // star bottom
-    { id:"od1", tx:-24, ty: 18, sx:-110, sy:  60 },  // duck L
-    { id:"od2", tx: 24, ty: 18, sx: 110, sy:  60 },  // duck R
-    { id:"om1", tx:-10, ty:-36, sx: -60, sy:-110 },  // bookmark TL
-    { id:"om2", tx: 10, ty: 36, sx:  60, sy: 110 },  // bookmark BR
-    { id:"oc1", tx: 48, ty:-18, sx: 140, sy: -60 },  // cloud TR
-    { id:"oc2", tx:-48, ty: 22, sx:-140, sy:  60 },  // cloud BL
-  ];
+  /* 0.0 — Skip btn */
+  tl.to($("skipBtn"), { opacity: 1, duration: 0.4 }, 0);
 
-  const vw = () => window.innerWidth  * 0.01;
-  const vh = () => window.innerHeight * 0.01;
+  /* 0.2 — Phase 1 fades in */
+  tl.to($("phLogo"), { opacity: 1, pointerEvents: "auto", duration: 0.5 }, 0.2);
 
-  // Place elements at start positions
-  orbitSlots.forEach(slot => {
-    const el = document.getElementById(slot.id);
-    if (!el) return;
-    const cx = window.innerWidth  / 2;
-    const cy = window.innerHeight / 2;
-    gsap.set(el, {
-      x: cx + slot.sx * vw() - el.offsetWidth  / 2,
-      y: cy + slot.sy * vh() - el.offsetHeight / 2,
-      opacity: 0,
-      scale: .6,
+  /* 0.4 – 1.8 — SVG paths draw on */
+  tl.to(".lm-draw", {
+    strokeDashoffset: 0,
+    duration: 1.5,
+    stagger: 0.12,
+    ease: "power2.inOut",
+  }, 0.4);
+
+  /* 1.6 — fills appear */
+  tl.to(".lm-fill", { opacity: 1, duration: 0.4, stagger: 0.1 }, 1.6);
+
+  /* 2.0 — wordmark */
+  tl.to($("logoWordmark"), { opacity: 1, y: 0, duration: 0.6 }, 2.0);
+
+  /* 3.2 — Phase 1 fades out, cream blooms in */
+  tl.to($("phLogo"), { opacity: 0, pointerEvents: "none", duration: 0.7 }, 3.2);
+  tl.to($("phWorld"), { opacity: 1, pointerEvents: "auto", duration: 0.7 }, 3.2);
+
+  /* 3.4 — duck drops in */
+  tl.to($("duckCenter"), {
+    opacity: 1, y: 0, scale: 1,
+    duration: 0.85, ease: "back.out(1.6)",
+  }, 3.4);
+
+  /* 3.9 – 5.5 — books orbit in, one by one */
+  BOOKS.forEach((book, i) => {
+    tl.to(book, {
+      opacity: 1, scale: 1,
+      duration: 0.5, ease: "back.out(2)",
+    }, 3.9 + i * 0.28);
+  });
+
+  /* 5.4 — start ring rotation (CSS does it, we just let CSS anim run) */
+  tl.call(() => {
+    $("orbitRing").style.animation = "orbit-spin 18s linear infinite";
+    // counter-rotate each book to stay upright
+    BOOKS.forEach(b => {
+      b.style.animation = "counter-spin 18s linear infinite";
     });
-  });
+  }, null, 5.4);
 
-  // Main hero timeline (scrubbed to scroll)
-  const heroTl = gsap.timeline({ defaults: { ease: "power3.out" } });
+  /* 5.8 — title */
+  tl.to($("mainTitle"), { opacity: 1, y: 0, duration: 0.7 }, 5.8);
 
-  // Phase 1 (progress 0→0.35): duck scales in + elements fly to orbit
-  heroTl
-    .fromTo("#heroDuck", { scale: .4, opacity: 0 }, { scale: 1, opacity: 1, duration: .25 }, 0)
-    .to(orbitSlots.map(s => "#" + s.id), {
-      duration: .4,
-      stagger: .015,
-      opacity: 1,
-      scale: 1,
-      x: (i) => {
-        const slot = orbitSlots[i];
-        const el   = document.getElementById(slot.id);
-        return window.innerWidth  / 2 + slot.tx * vw() - (el ? el.offsetWidth  / 2 : 0);
-      },
-      y: (i) => {
-        const slot = orbitSlots[i];
-        const el   = document.getElementById(slot.id);
-        return window.innerHeight / 2 + slot.ty * vh() - (el ? el.offsetHeight / 2 : 0);
-      },
-    }, 0)
+  /* 6.2 — tagline */
+  tl.to($("mainTagline"), { opacity: 1, y: 0, duration: 0.55 }, 6.2);
 
-  // Phase 2 (0.35→0.55): title
-    .fromTo("#heroTitle",   { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: .25 }, ".3")
+  /* 6.8 — CTA button */
+  tl.to($("ctaBtn"), {
+    opacity: 1, y: 0, scale: 1,
+    duration: 0.55, ease: "back.out(1.4)",
+  }, 6.8);
 
-  // Phase 3 (0.5→0.7): tagline
-    .fromTo("#heroTagline", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: .2  }, ".45")
+  /* 7.0 — CTA pulse ring */
+  tl.to($("ctaPulse"), {
+    opacity: 1, scale: 1.5, duration: 0.9,
+    repeat: -1, yoyo: false,
+    ease: "power2.out",
+    keyframes: [
+      { opacity: 0.6, scale: 1,   duration: 0 },
+      { opacity: 0,   scale: 1.7, duration: 0.9 },
+    ],
+  }, 7.0);
 
-  // Phase 4 (0.62→0.78): sub
-    .fromTo("#heroSub",     { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: .18 }, ".58")
+  /* 7.5 — hand slides in */
+  tl.to($("handWrap"), {
+    opacity: 1, x: 0, rotation: -8,
+    duration: 0.65, ease: "power3.out",
+  }, 7.5);
 
-  // Phase 5 (0.72→0.88): CTA
-    .fromTo("#heroCta",     { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: .18 }, ".68")
+  /* 8.2 — hand taps (presses down) */
+  tl.to($("handWrap"), {
+    y: -12, scale: 0.92,
+    duration: 0.18, ease: "power2.in",
+  }, 8.2);
+  /* ripple burst */
+  tl.to($("tapRipple"), {
+    scale: 1.8, opacity: 0,
+    duration: 0.5, ease: "power2.out",
+    keyframes: [
+      { scale: 0,   opacity: 0.7, duration: 0 },
+      { scale: 1.8, opacity: 0,   duration: 0.5 },
+    ],
+  }, 8.2);
+  /* hand lifts */
+  tl.to($("handWrap"), {
+    y: 0, scale: 1,
+    duration: 0.22, ease: "power2.out",
+  }, 8.4);
 
-  // Phase 6 (0.85→1): scroll cue
-    .fromTo("#scrollCue",   { opacity: 0 },         { opacity: 1, duration: .12 },       ".82");
+  /* 9.0 — white flash → redirect */
+  tl.to($("transOverlay"), {
+    opacity: 1, duration: 0.5, ease: "power2.in",
+    onComplete: () => { window.location.href = "index.html"; },
+  }, 9.0);
 
-  // Pin the hero and scrub the timeline
-  ScrollTrigger.create({
-    trigger: "#heroPinWrap",
-    start:   "top top",
-    end:     "+=" + SCROLL_SPACE,
-    pin:     "#heroScene",
-    scrub:   1.4,
-    animation: heroTl,
-  });
+})();
 
-  // Gentle idle float on orbiting elements after they arrive
-  // (runs always, independent of scroll)
-  function addIdleFloat(id, delay) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    gsap.to(el, {
-      y: "-=14",
-      duration: 3 + Math.random() * 2,
-      repeat: -1, yoyo: true,
-      ease: "sine.inOut",
-      delay,
-    });
-  }
-  orbitSlots.forEach((s, i) => addIdleFloat(s.id, i * .12 + 1));
-
-  // Duck gentle pulse
-  gsap.to("#heroDuck", {
-    scale: 1.04, duration: 2.8,
-    repeat: -1, yoyo: true, ease: "sine.inOut",
-    delay: 1.2,
-  });
-
-  // ══════════════════════════════════════════════════════════
-  // SCENE 2–7: scroll-triggered reveals
-  // ══════════════════════════════════════════════════════════
-
-  // Parallax for image scenes
-  ["#s2","#s3","#s4"].forEach(id => {
-    const bg = document.querySelector(id + " .scene__bg");
-    if (!bg) return;
-    gsap.fromTo(bg, { yPercent: -8 }, {
-      yPercent: 8, ease: "none",
-      scrollTrigger: { trigger: id, start: "top bottom", end: "bottom top", scrub: true },
-    });
-  });
-
-  // Animate [data-anim] elements
-  document.querySelectorAll("[data-anim]").forEach(el => {
-    const anim  = el.dataset.anim;
-    const delay = parseFloat(el.dataset.delay || 0) / 1000;
-    const from  = {
-      "fade-up":    { opacity:0, y:38 },
-      "fade-left":  { opacity:0, x:-46 },
-      "fade-right": { opacity:0, x:46 },
-      "scale-up":   { opacity:0, scale:.88, y:22 },
-    }[anim] || { opacity:0, y:30 };
-
-    gsap.fromTo(el, from, {
-      opacity:1, x:0, y:0, scale:1,
-      duration: .82, delay,
-      ease: "power3.out",
-      scrollTrigger: { trigger: el, start: "top 88%", toggleActions: "play none none none" },
-    });
-  });
-
-  // CTA deco floaters reveal
-  gsap.to(".cta-deco span", {
-    opacity: .55, duration: 1.1, stagger: .15, ease: "power2.out",
-    scrollTrigger: { trigger: "#s7", start: "top 80%", toggleActions: "play none none none" },
-  });
-
-  // Mock cards stagger
-  gsap.fromTo(".mock-card",
-    { opacity:0, y:18 },
-    { opacity:1, y:0, duration:.48, stagger:.06, ease:"power2.out",
-      scrollTrigger: { trigger:".mock-grid", start:"top 88%", toggleActions:"play none none none" } }
-  );
-
-  // Feature pills stagger
-  gsap.fromTo(".feat-pill",
-    { opacity:0, scale:.82 },
-    { opacity:1, scale:1, duration:.4, stagger:.07, ease:"back.out(1.8)",
-      scrollTrigger: { trigger:".cta-pills", start:"top 88%", toggleActions:"play none none none" } }
-  );
-
-  // Button spring hover
-  document.querySelectorAll(".l-btn--primary,.l-btn--gold").forEach(btn => {
-    btn.addEventListener("mouseenter", () => gsap.to(btn, { scale:1.05, duration:.18, ease:"back.out(3)" }));
-    btn.addEventListener("mouseleave", () => gsap.to(btn, { scale:1,    duration:.22, ease:"power2.out" }));
-  });
-
-  // Resize: recalculate orbit positions
-  let resizeT;
-  window.addEventListener("resize", () => {
-    clearTimeout(resizeT);
-    resizeT = setTimeout(() => {
-      if (pinWrap) pinWrap.style.height = window.innerHeight * 4 + "px";
-      ScrollTrigger.refresh();
-    }, 200);
-  });
-
+/* Orbit CSS keyframes injected at runtime (avoids HTML clutter) */
+(function injectOrbitCSS() {
+  const style = document.createElement("style");
+  style.textContent = `
+    @keyframes orbit-spin {
+      from { transform: rotate(0deg);   }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes counter-spin {
+      from { transform: rotate(0deg);    }
+      to   { transform: rotate(-360deg); }
+    }
+  `;
+  document.head.appendChild(style);
 })();
