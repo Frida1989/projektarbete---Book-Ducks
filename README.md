@@ -1,8 +1,8 @@
-# StoryDucks
+# Duck Story
 
 En webbapp för föräldrar som vill hitta barnböcker, sätta betyg och hålla koll på vad de läst.
 
-**Live:** https://bookducks.netlify.app
+**Live:** https://duck-story.netlify.app
 
 ---
 
